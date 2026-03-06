@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Tutorials — D. Projects</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --dark: #1A2332; --dark2: #1E2A3A; --dark3: #243044;
+    --teal: #0A3640; --teal2: #0D4A56;
+    --gold: #C6A96A; --gold-light: #D4BC85; --gold-dim: rgba(198,169,106,0.15);
+    --gray: #8A9196; --cream: #F5F3EE; --white: #FFFFFF;
+    --red: #B23026; --green: #2D8B4E; --blue: #2A6496;
+    --orange: #C27A32; --purple: #6B4C8A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--cream); line-height: 1.6; }
+  a { color: var(--gold); }
+
+  /* TUTORIAL STYLES */
+  .tut-hero { padding: 7rem 2rem 3rem; text-align: center; background: linear-gradient(180deg, var(--dark) 0%, var(--teal) 50%, var(--dark2) 100%); position: relative; }
+  .tut-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .tut-hero .badge { display: inline-block; padding: 0.25rem 0.9rem; border-radius: 20px; font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; color: white; margin-bottom: 1rem; }
+  .tut-hero h1 { font-size: 2rem; font-weight: 800; color: var(--white); max-width: 700px; margin: 0 auto 0.8rem; letter-spacing: 1px; }
+  .tut-hero p { color: var(--gray); font-size: 0.92rem; max-width: 600px; margin: 0 auto; }
+  .tut-hero .meta { margin-top: 1.2rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.78rem; color: var(--gray); }
+
+  /* HUB STYLES */
+  .hub-section { max-width: 1000px; margin: 0 auto; padding: 0 2rem; margin-bottom: 3rem; }
+  .hub-section-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+  .hub-section-header .icon { font-size: 1.6rem; }
+  .hub-section-header h2 { font-size: 1.2rem; font-weight: 800; color: var(--white); }
+  .hub-section-header .line { height: 3px; border-radius: 2px; width: 40px; margin-top: 0.3rem; }
+  .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+  .hub-card { background: var(--dark2); border: 1px solid rgba(198,169,106,0.1); border-radius: 8px; padding: 1.2rem; text-decoration: none; transition: all 0.3s; display: block; }
+  .hub-card:hover { border-color: rgba(198,169,106,0.3); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+  .hub-card h3 { font-size: 0.88rem; color: var(--white); margin-bottom: 0.5rem; font-weight: 600; }
+  .hub-card .meta { display: flex; gap: 0.8rem; font-size: 0.72rem; }
+  @media(max-width:414px){
+    .hero{padding:4rem 1.2rem 2.5rem}
+    .hero h1{font-size:1.8rem}
+    .hero p{font-size:0.82rem}
+    section{padding:2.5rem 1.2rem}
+  }
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+
+/* FILTER BAR */
+.filter-bar { max-width: 1100px; margin: 2rem auto 0; padding: 0 2rem; }
+.filter-bar .search-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+.filter-bar input[type="text"] { flex: 1; min-width: 200px; background: var(--dark2); border: 1px solid rgba(198,169,106,0.2); border-radius: 6px; padding: 0.6rem 1rem; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none; transition: border-color 0.3s; }
+.filter-bar input[type="text"]:focus { border-color: var(--gold); }
+.filter-bar input[type="text"]::placeholder { color: var(--gray); opacity: 0.6; }
+.filter-bar select { background: var(--dark2); border: 1px solid rgba(198,169,106,0.2); border-radius: 6px; padding: 0.6rem 1rem; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.82rem; outline: none; cursor: pointer; min-width: 200px; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23C6A96A' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.8rem center; padding-right: 2.2rem; }
+.filter-bar select:focus { border-color: var(--gold); }
+.filter-bar select option { background: var(--dark2); color: var(--cream); }
+.filter-btn { background: transparent; border: 1px solid rgba(198,169,106,0.25); color: var(--gray); padding: 0.35rem 0.9rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; letter-spacing: 1.5px; cursor: pointer; transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
+.filter-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(198,169,106,0.08); }
+.filter-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+.filter-count { font-size: 0.78rem; color: var(--gray); margin-top: 0.5rem; }
+.hub-section.hidden-section { display: none; }
+.hub-card.hidden-card { display: none; }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAkACoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD8/K0dA8P3/ifVItP02Dz7mTnBYKqjIGWJ4A5FX/CvgLXPGf2htKsjLBbjdNcSOI4oh7sf6Zr0vw0viX4DajcQ3mix3MUrrP8Abh58cMoCERtHcKMFQzEjj7ymvUxWMjQi1Bpz7GWDwVTF1FFLT1S+69rndaN+wbqesaGl0vxB8OLfllDWiqxRAW2sxlLLuC8n5VOcHGeK8X+L3wR8VfBLW47DxHbQtDPuNrqNjKJrW5AODtcYww7qwDD0xzX1p4H/AGtbTWYZfDcXhuJLnUrUWcEtz4nt4beHZAwLPJKAFGdzc46gda5v4j/FvXf2lPCmreD9J8I2nmyzxSwi3S41O5edXRS0ckUaxQj5WYu5xtLAcmvncNmeMVVOvZwb8tPu7eh9BWySS5qcYuM4q+rtp/280tfJnxlRivXfid+yp8SfhRps2q6roa32hwk79W0iYXNugBwWfGHQZ4yyge9eRV9dSrU68eelJNeR8lOnOm+WaszvPAXjvxV4UsXm0qxmv9MtHaRm+zStHbMQCzebHgpnAJDHHfHevVPBP7S2tWVndXlr4c1K7S2jaS6u7SIzRCQjiSZoxGFUDOA3ABOOlc78EvjfpHw08MWlpfTa/HdWPiRNfW20gosOoItt5X2WdmcYRj975X+XPGavfC79pO0+C/gjxLZ+HdOnvde1PVrTVbV7xmgs7VhZ3MMytHFKPORWuMJHJlGVcuAQBXmVcJSxE5e0pfPudkK06UY8k/l2PVPD37anh+YC3ufC5vL2WYLCsWhpcSsNqqqgG5BLEgnGDy3eq95+3RpcVs1t/Y+sajCwmhuLC6hs4bWSMk7FMeHI4wGBJ6mqPgn44/BjU/Hlqlx4L03wzYDWkktbp9Lt7eO3tFe1eGaWeNjLG8Ahu8pGG883ChiMDHOa98bPg3qOmtBpfgFNDvzpT2sOptoltfvbXBMG9mjmlCXAkEc+JHUSR+ecZ6DnWVYW+sH95p9drW0kih49/bY8Y+K9D1bSNKsbHw/barbmyvL2MedeT2oDKkO/CoiqjFfkRSQTk5Oa+eBwABwBX0J8XPjf4A+I/hPxF5Xh17fxPqJ0+S0u4tGtLZrYxQW8UsUkyuxeL91KV2JGxMgDEqNo+eq9bD0KdCPLThynFVqTqO85XCiiiuoxF6UlFFABRRRQB//Z" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div><div class="tut-hero">
+  <h1>PRODUCT TUTORIALS</h1>
+  <p>124 step-by-step guides across 50 D. Projects suites — practical, no-fluff construction management education.</p>
+  <div class="meta"><span>124 Tutorials</span><span>50 Suites</span><span>Free Access</span></div>
+</div>
+
+<div class="filter-bar">
+  <div class="search-row">
+    <input type="text" id="tutSearch" placeholder="Search tutorials..." oninput="filterTutorials()">
+    <select id="suiteFilter" onchange="filterTutorials()">
+      <option value="all">All Suites (50)</option>
+    </select>
+  </div>
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
+    <span style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:var(--gold);margin-right:0.5rem">DIFFICULTY</span>
+    <button class="filter-btn active" data-diff="all" onclick="setDifficulty('all')">ALL</button>
+    <button class="filter-btn" data-diff="beginner" onclick="setDifficulty('beginner')">BEGINNER</button>
+    <button class="filter-btn" data-diff="intermediate" onclick="setDifficulty('intermediate')">INTERMEDIATE</button>
+    <button class="filter-btn" data-diff="advanced" onclick="setDifficulty('advanced')">ADVANCED</button>
+  </div>
+  <div id="tutFilterCount" class="filter-count">Showing all 124 tutorials</div>
+</div>
+
+<div style="max-width:1100px;margin:3rem auto;padding:0 2rem">
+  <div id="analytics-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Analytics Suite</h2><div class="line" style="background:#C6A96A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-analytics-kpi-setup.html" class="hub-card">
+  <h3>Setting Up Construction KPIs in Your Analytics Dashboard</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-analytics-trend-reports.html" class="hub-card">
+  <h3>Building Trend Reports for Multi-Project Portfolios</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="architecture-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Architecture Suite</h2><div class="line" style="background:#2A6496"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-arch-design-review.html" class="hub-card">
+  <h3>Running a Structured Design Review with D. Projects</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-arch-space-planning.html" class="hub-card">
+  <h3>Space Planning and Area Scheduling Workflows</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="bim-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>BIM Suite</h2><div class="line" style="background:#2D8B4E"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-bim-clash-tracking.html" class="hub-card">
+  <h3>Clash Detection Tracking and Resolution Workflow</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-bim-execution-plan.html" class="hub-card">
+  <h3>Creating a BIM Execution Plan from Scratch</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="bid--tender-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Bid & Tender Suite</h2><div class="line" style="background:#6B4C8A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-bt-bid-comparison.html" class="hub-card">
+  <h3>How to Use the Bid Comparison Dashboard</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-bt-prequalification.html" class="hub-card">
+  <h3>Running a Contractor Prequalification Assessment</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 14 min</span></div>
+</a><a href="tut-bt-scoring.html" class="hub-card">
+  <h3>Scoring & Shortlisting Bidders Step by Step</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 12 min</span></div>
+</a><a href="tut-bt-tender-response.html" class="hub-card">
+  <h3>Structuring a Winning Tender Response</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 15 min</span></div>
+</a><a href="tut-bt2-rfp-response.html" class="hub-card">
+  <h3>Structuring a Winning RFP Response</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-bt2-vendor-eval.html" class="hub-card">
+  <h3>Vendor Evaluation and Scoring Matrix Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="change-order-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Change Order Suite</h2><div class="line" style="background:#C27A32"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-co-impact-analysis.html" class="hub-card">
+  <h3>Change Order Impact Analysis on Schedule and Budget</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-co-processing.html" class="hub-card">
+  <h3>Processing Change Orders from Request to Approval</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="civil-engineering-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Civil Engineering Suite</h2><div class="line" style="background:#B23026"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-civil-earthworks.html" class="hub-card">
+  <h3>Earthworks Quantity Tracking and Cut-Fill Analysis</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-civil-road-checklist.html" class="hub-card">
+  <h3>Road Construction Quality Checklists Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="claims-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Claims Suite</h2><div class="line" style="background:#0D9488"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-claims-evidence-log.html" class="hub-card">
+  <h3>Building a Claims Evidence Log and Document Trail</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-claims-narrative.html" class="hub-card">
+  <h3>Writing a Persuasive Claim Narrative</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-rc-claims-narrative.html" class="hub-card">
+  <h3>Building a Claims Narrative with Evidence</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 18 min</span></div>
+</a><a href="tut-rc-delay-events.html" class="hub-card">
+  <h3>Documenting Delay Events for Claims</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 15 min</span></div>
+</a><a href="tut-rc-logging-claims.html" class="hub-card">
+  <h3>Logging a Claim in the Claims Timeline Dashboard</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 12 min</span></div>
+</a><a href="tut-rc-recovery-progress.html" class="hub-card">
+  <h3>Tracking Recovery Progress Across Multiple Claims</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 14 min</span></div>
+</a></div>
+</div>
+  <div id="commercial-kitchen-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Commercial Kitchen Suite</h2><div class="line" style="background:#8B6914"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-kitchen-equipment-sched.html" class="hub-card">
+  <h3>Commercial Kitchen Equipment Schedule Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-kitchen-mep-coord.html" class="hub-card">
+  <h3>Kitchen MEP Coordination Checklist</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="community-development-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Community Development Suite</h2><div class="line" style="background:#C6A96A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-community-impact-report.html" class="hub-card">
+  <h3>Preparing a Community Impact Assessment Report</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-community-stakeholder-map.html" class="hub-card">
+  <h3>Mapping Community Stakeholders for Development Projects</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="contract-administration-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Contract Administration Suite</h2><div class="line" style="background:#2A6496"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-ca-correspondence-log.html" class="hub-card">
+  <h3>Setting Up a Contract Correspondence Tracker</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-ca-payment-certs.html" class="hub-card">
+  <h3>Processing Interim Payment Certificates (IPC)</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="cost-engineering-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Cost Engineering Suite</h2><div class="line" style="background:#2D8B4E"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-cost-budget-forecast.html" class="hub-card">
+  <h3>Creating Cost-to-Complete Forecasts</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-cost-evm-setup.html" class="hub-card">
+  <h3>Implementing Earned Value Management (EVM) on Your Project</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="digital-twin-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Digital Twin Suite</h2><div class="line" style="background:#6B4C8A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-dt-lifecycle-data.html" class="hub-card">
+  <h3>Integrating Lifecycle Data into Your Digital Twin</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-dt-setup.html" class="hub-card">
+  <h3>Setting Up a Digital Twin Dashboard for Asset Monitoring</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="document-control-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Document Control Suite</h2><div class="line" style="background:#C27A32"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-dc-register-setup.html" class="hub-card">
+  <h3>Setting Up a Document Control Register</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-dc-transmittal-workflow.html" class="hub-card">
+  <h3>Managing Transmittals and Document Submissions</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="drone-surveying-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Drone Surveying Suite</h2><div class="line" style="background:#B23026"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-drone-flight-plan.html" class="hub-card">
+  <h3>Planning Construction Site Drone Survey Flights</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-drone-progress-compare.html" class="hub-card">
+  <h3>Comparing Drone Survey Data for Progress Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="due-diligence-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Due Diligence Suite</h2><div class="line" style="background:#0D9488"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-dd2-red-flag-checklist.html" class="hub-card">
+  <h3>Red Flag Identification Checklist for Investors</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-dd2-technical-audit.html" class="hub-card">
+  <h3>Conducting Technical Due Diligence on a Construction Asset</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-dda-checklists.html" class="hub-card">
+  <h3>Automating Due Diligence Checklists</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 12 min</span></div>
+</a><a href="tut-dda-kpi-screen.html" class="hub-card">
+  <h3>Using the Executive KPI Screen</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-dda-portfolio-tracking.html" class="hub-card">
+  <h3>Setting Up Portfolio-Level Tracking</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 14 min</span></div>
+</a><a href="tut-dda-red-flags.html" class="hub-card">
+  <h3>Interpreting Red Flags in the DD Dashboard</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 15 min</span></div>
+</a></div>
+</div>
+  <div id="electrical-engineering-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Electrical Engineering Suite</h2><div class="line" style="background:#8B6914"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-elec-load-schedule.html" class="hub-card">
+  <h3>Building an Electrical Load Schedule from Scratch</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-elec-testing-log.html" class="hub-card">
+  <h3>Electrical Testing and Commissioning Log Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="environmental-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Environmental Suite</h2><div class="line" style="background:#C6A96A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-env-eia-tracker.html" class="hub-card">
+  <h3>Tracking Environmental Impact Assessment Milestones</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-env-waste-management.html" class="hub-card">
+  <h3>Construction Waste Management Plan Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="facade-engineering-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Facade Engineering Suite</h2><div class="line" style="background:#2A6496"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-facade-installation-log.html" class="hub-card">
+  <h3>Facade Panel Installation Tracking System</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-facade-mock-up.html" class="hub-card">
+  <h3>Planning and Tracking Facade Mock-Up Testing</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="feasibility-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Feasibility Suite</h2><div class="line" style="background:#2D8B4E"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-fda-feasibility-study.html" class="hub-card">
+  <h3>Building a Feasibility Study with FDA Templates</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 18 min</span></div>
+</a><a href="tut-fda-financial-modeling.html" class="hub-card">
+  <h3>Financial Modeling Basics for Construction</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 20 min</span></div>
+</a><a href="tut-fda-investor-deck.html" class="hub-card">
+  <h3>Preparing an Investor Deck for Real Estate Projects</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 14 min</span></div>
+</a><a href="tut-fda-market-dashboard.html" class="hub-card">
+  <h3>Reading the Market Analysis Dashboard</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-feas-financial-model.html" class="hub-card">
+  <h3>Building a Development Feasibility Financial Model</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-feas-market-study.html" class="hub-card">
+  <h3>Conducting a Market Feasibility Study for Real Estate</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="financial-reporting-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Financial Reporting Suite</h2><div class="line" style="background:#6B4C8A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-finrep-cash-flow.html" class="hub-card">
+  <h3>Cash Flow Forecasting and S-Curve Generation</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-finrep-monthly-report.html" class="hub-card">
+  <h3>Creating Monthly Financial Reports for Construction Projects</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="fire-protection-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Fire Protection Suite</h2><div class="line" style="background:#C27A32"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-fire-life-safety.html" class="hub-card">
+  <h3>Fire and Life Safety Compliance Checklist Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-fire-system-testing.html" class="hub-card">
+  <h3>Fire Protection System Testing and Commissioning Log</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="hr--workforce-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>HR & Workforce Suite</h2><div class="line" style="background:#B23026"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-hr-manpower-plan.html" class="hub-card">
+  <h3>Creating a Construction Manpower Plan</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-hr-training-matrix.html" class="hub-card">
+  <h3>Setting Up a Workforce Training and Certification Matrix</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="handover--closeout-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Handover & Closeout Suite</h2><div class="line" style="background:#0D9488"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-handover-checklist.html" class="hub-card">
+  <h3>Creating a Project Handover Checklist</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-handover-snag-list.html" class="hub-card">
+  <h3>Snag List Management and Defects Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="healthcare-facilities-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Healthcare Facilities Suite</h2><div class="line" style="background:#8B6914"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-health-compliance-tracker.html" class="hub-card">
+  <h3>Healthcare Facility Compliance Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-health-room-data.html" class="hub-card">
+  <h3>Setting Up Room Data Sheets for Healthcare Projects</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="hospitality--hotels-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Hospitality & Hotels Suite</h2><div class="line" style="background:#C6A96A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-hotel-ff-e.html" class="hub-card">
+  <h3>FF&E Procurement and Installation Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-hotel-room-tracker.html" class="hub-card">
+  <h3>Hotel Room Fit-Out Progress Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="industrial-projects-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Industrial Projects Suite</h2><div class="line" style="background:#2A6496"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-industrial-equipment-log.html" class="hub-card">
+  <h3>Heavy Equipment Tracking and Utilization Log</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-industrial-shutdown.html" class="hub-card">
+  <h3>Planning an Industrial Shutdown and Turnaround</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="insurance--bonding-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Insurance & Bonding Suite</h2><div class="line" style="background:#2D8B4E"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-ins-bond-management.html" class="hub-card">
+  <h3>Performance Bond and Guarantee Management</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-ins-policy-tracker.html" class="hub-card">
+  <h3>Construction Insurance Policy Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="interior-design-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Interior Design Suite</h2><div class="line" style="background:#6B4C8A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-interiors-fitout-tracker.html" class="hub-card">
+  <h3>Interior Fit-Out Progress Tracking by Zone</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-interiors-material-board.html" class="hub-card">
+  <h3>Creating Digital Material Boards and Finish Schedules</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="investment-analysis-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Investment Analysis Suite</h2><div class="line" style="background:#C27A32"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-invest-appraisal.html" class="hub-card">
+  <h3>Running a Real Estate Investment Appraisal</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-invest-portfolio-dash.html" class="hub-card">
+  <h3>Setting Up an Investment Portfolio Dashboard</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="iot--smart-systems-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>IoT & Smart Systems Suite</h2><div class="line" style="background:#B23026"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-iot-data-dashboard.html" class="hub-card">
+  <h3>Creating an IoT Data Monitoring Dashboard</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-iot-sensor-map.html" class="hub-card">
+  <h3>Mapping IoT Sensor Networks for Construction Sites</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="land-survey-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Land Survey Suite</h2><div class="line" style="background:#0D9488"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-survey-as-built.html" class="hub-card">
+  <h3>As-Built Survey Documentation Workflow</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-survey-control-points.html" class="hub-card">
+  <h3>Establishing Survey Control Points for a New Site</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="legal--compliance-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Legal & Compliance Suite</h2><div class="line" style="background:#8B6914"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-legal-compliance-tracker.html" class="hub-card">
+  <h3>Regulatory Compliance Tracking for Construction</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-legal-contract-review.html" class="hub-card">
+  <h3>Construction Contract Review Checklist</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="mep-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>MEP Suite</h2><div class="line" style="background:#C6A96A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-mep-commissioning.html" class="hub-card">
+  <h3>MEP Systems Commissioning Tracker Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-mep-coordination.html" class="hub-card">
+  <h3>MEP Coordination and Clash Avoidance Workflow</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="marine--coastal-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Marine & Coastal Suite</h2><div class="line" style="background:#2A6496"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-marine-pile-log.html" class="hub-card">
+  <h3>Marine Piling Installation Log Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-marine-tidal-planning.html" class="hub-card">
+  <h3>Tidal Window Planning for Marine Construction</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="master-planning-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Master Planning Suite</h2><div class="line" style="background:#2D8B4E"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-mp-infrastructure-phasing.html" class="hub-card">
+  <h3>Infrastructure Phasing and Delivery Sequencing</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-mp-land-use.html" class="hub-card">
+  <h3>Creating a Land Use Plan with the Master Planning Suite</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="pmo-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>PMO Suite</h2><div class="line" style="background:#6B4C8A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-pmo-dashboard-setup.html" class="hub-card">
+  <h3>Setting Up Your PMO Dashboard from Scratch</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 12 min</span></div>
+</a><a href="tut-pmo-master-schedule.html" class="hub-card">
+  <h3>Building a Master Schedule with the PMO Catalog</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 15 min</span></div>
+</a><a href="tut-pmo-stakeholder-reporting.html" class="hub-card">
+  <h3>Reporting to Stakeholders Using PMO Templates</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 12 min</span></div>
+</a><a href="tut-pmo-tracking-templates.html" class="hub-card">
+  <h3>Customizing Project Tracking Templates</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-pmo2-governance.html" class="hub-card">
+  <h3>Establishing PMO Governance for Multi-Project Programs</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-pmo2-resource-pool.html" class="hub-card">
+  <h3>Managing a Shared Resource Pool Across Projects</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="permits--approvals-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Permits & Approvals Suite</h2><div class="line" style="background:#C27A32"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-permits-authority-matrix.html" class="hub-card">
+  <h3>Building an Authority Approval Matrix</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-permits-tracker.html" class="hub-card">
+  <h3>Setting Up a Permits and Approvals Tracker</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="power--energy-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Power & Energy Suite</h2><div class="line" style="background:#B23026"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-power-cable-schedule.html" class="hub-card">
+  <h3>Creating a Cable Schedule and Pull Tracking Log</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-power-substation.html" class="hub-card">
+  <h3>Tracking Power Substation Construction Progress</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="procurement--supply-chain-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Procurement & Supply Chain Suite</h2><div class="line" style="background:#0D9488"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-proc-material-tracking.html" class="hub-card">
+  <h3>Material Procurement and Delivery Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-proc-vendor-register.html" class="hub-card">
+  <h3>Building a Vendor Pre-Qualification Register</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="real-estate-development-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Real Estate Development Suite</h2><div class="line" style="background:#8B6914"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-re-project-brief.html" class="hub-card">
+  <h3>Drafting a Real Estate Development Brief</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-re-unit-tracker.html" class="hub-card">
+  <h3>Setting Up a Unit Sales and Handover Tracker</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="risk--safety-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Risk & Safety Suite</h2><div class="line" style="background:#C6A96A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-risk-register-setup.html" class="hub-card">
+  <h3>Creating a Project Risk Register from Scratch</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-safety-inspection.html" class="hub-card">
+  <h3>HSE Inspection and Incident Tracking Setup</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="roads--highways-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Roads & Highways Suite</h2><div class="line" style="background:#2A6496"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-roads-chainage-tracker.html" class="hub-card">
+  <h3>Setting Up Chainage-Based Progress Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-roads-material-testing.html" class="hub-card">
+  <h3>Road Material Testing and Approval Log</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="schedule--planning-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Schedule & Planning Suite</h2><div class="line" style="background:#2D8B4E"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-sched-baseline.html" class="hub-card">
+  <h3>Creating a Baseline Schedule for Construction Projects</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-sched-delay-analysis.html" class="hub-card">
+  <h3>Performing Schedule Delay Analysis</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="site-supervision-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Site Supervision Suite</h2><div class="line" style="background:#6B4C8A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-ss-defects.html" class="hub-card">
+  <h3>Documenting Defects and Non-Conformances</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 14 min</span></div>
+</a><a href="tut-ss-inspection-dashboard.html" class="hub-card">
+  <h3>Site Inspection Dashboard Walkthrough</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-ss-qaqc-inspections.html" class="hub-card">
+  <h3>Running QA/QC Inspections with the Tracker</h3>
+  <div class="meta"><span style="color:var(--gold);font-weight:600">Beginner</span><span style="color:var(--gray)">⏱ 12 min</span></div>
+</a><a href="tut-ss-weekly-reporting.html" class="hub-card">
+  <h3>Weekly Site Reporting Best Practices</h3>
+  <div class="meta"><span style="color:var(--orange);font-weight:600">Intermediate</span><span style="color:var(--gray)">⏱ 12 min</span></div>
+</a><a href="tut-ss2-daily-report.html" class="hub-card">
+  <h3>Writing Effective Daily Site Reports</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-ss2-rfi-management.html" class="hub-card">
+  <h3>RFI Management and Response Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="stakeholder-management-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Stakeholder Management Suite</h2><div class="line" style="background:#C27A32"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-stake-analysis.html" class="hub-card">
+  <h3>Stakeholder Analysis and Engagement Planning</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-stake-comm-plan.html" class="hub-card">
+  <h3>Creating a Stakeholder Communication Plan</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="structural-engineering-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Structural Engineering Suite</h2><div class="line" style="background:#B23026"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-struct-concrete-log.html" class="hub-card">
+  <h3>Concrete Pour Log and Cube Test Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-struct-rebar-schedule.html" class="hub-card">
+  <h3>Rebar Schedule and Steel Cutting List Management</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="subcontractor-management-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Subcontractor Management Suite</h2><div class="line" style="background:#0D9488"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-sub-payment-tracker.html" class="hub-card">
+  <h3>Subcontractor Payment Application Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-sub-performance.html" class="hub-card">
+  <h3>Subcontractor Performance Evaluation System</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="telecom-infrastructure-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Telecom Infrastructure Suite</h2><div class="line" style="background:#8B6914"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-telecom-fiber-log.html" class="hub-card">
+  <h3>Fiber Optic Cable Installation and Testing Log</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-telecom-tower-tracker.html" class="hub-card">
+  <h3>Telecom Tower Construction Progress Tracker</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="training--development-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Training & Development Suite</h2><div class="line" style="background:#C6A96A"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-train-needs-analysis.html" class="hub-card">
+  <h3>Conducting a Training Needs Analysis for Construction Teams</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-train-program-setup.html" class="hub-card">
+  <h3>Setting Up a Structured Training Program</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+  <div id="water--wastewater-suite" class="hub-section">
+  <div class="hub-section-header">
+    <div><h2>Water & Wastewater Suite</h2><div class="line" style="background:#2A6496"></div></div>
+  </div>
+  <div class="hub-grid"><a href="tut-water-pipeline-tracker.html" class="hub-card">
+  <h3>Water Pipeline Installation Progress Tracking</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a><a href="tut-water-testing-log.html" class="hub-card">
+  <h3>Water Quality Testing and Commissioning Log</h3>
+  <div class="meta"><span style="color:var(--red);font-weight:600">Advanced</span><span style="color:var(--gray)">⏱ 10 min</span></div>
+</a></div>
+</div>
+</div>
+
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+// Populate suite dropdown
+(function() {
+  const sel = document.getElementById('suiteFilter');
+  document.querySelectorAll('.hub-section-header h2').forEach(h2 => {
+    const name = h2.textContent.trim();
+    const section = h2.closest('.hub-section');
+    const count = section.querySelectorAll('.hub-card').length;
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name + ' (' + count + ')';
+    sel.appendChild(opt);
+  });
+})();
+
+let activeDiff = 'all';
+
+function setDifficulty(level) {
+  activeDiff = level;
+  document.querySelectorAll('.filter-btn[data-diff]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.diff === level);
+  });
+  filterTutorials();
+}
+
+function filterTutorials() {
+  const query = document.getElementById('tutSearch').value.toLowerCase().trim();
+  const suiteVal = document.getElementById('suiteFilter').value;
+  let shown = 0;
+  const total = document.querySelectorAll('.hub-card').length;
+
+  document.querySelectorAll('.hub-section').forEach(section => {
+    const suiteName = section.querySelector('.hub-section-header h2')?.textContent.trim() || '';
+    const suiteMatch = suiteVal === 'all' || suiteName === suiteVal;
+    let sectionVisible = 0;
+
+    section.querySelectorAll('.hub-card').forEach(card => {
+      const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+      const metaText = (card.querySelector('.meta')?.textContent || '').toLowerCase();
+
+      let diffLevel = 'advanced';
+      if (metaText.includes('beginner')) diffLevel = 'beginner';
+      else if (metaText.includes('intermediate')) diffLevel = 'intermediate';
+
+      const searchMatch = !query || title.includes(query);
+      const diffMatch = activeDiff === 'all' || diffLevel === activeDiff;
+
+      if (suiteMatch && searchMatch && diffMatch) {
+        card.classList.remove('hidden-card');
+        shown++;
+        sectionVisible++;
+      } else {
+        card.classList.add('hidden-card');
+      }
+    });
+
+    if (!suiteMatch || sectionVisible === 0) {
+      section.classList.add('hidden-section');
+    } else {
+      section.classList.remove('hidden-section');
+    }
+  });
+
+  const countEl = document.getElementById('tutFilterCount');
+  countEl.textContent = shown === total ? 'Showing all ' + total + ' tutorials' : 'Showing ' + shown + ' of ' + total + ' tutorials';
+}
+</script>
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

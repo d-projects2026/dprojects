@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance Bond and Guarantee Management — D. Projects</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #1A2332; --dark2: #1E2A3A; --dark3: #243044;
+    --teal: #0A3640; --teal2: #0D4A56;
+    --gold: #C6A96A; --gold-light: #D4BC85; --gold-dim: rgba(198,169,106,0.15);
+    --gray: #8A9196; --cream: #F5F3EE; --white: #FFFFFF;
+    --red: #B23026; --green: #2D8B4E; --blue: #2A6496;
+    --orange: #C27A32; --purple: #6B4C8A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--cream); line-height: 1.6; }
+  a { color: var(--gold); }
+
+  .tut-hero { padding: 7rem 2rem 3rem; text-align: center; background: linear-gradient(180deg, var(--dark) 0%, var(--teal) 50%, var(--dark2) 100%); position: relative; }
+  .tut-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .tut-hero .badge { display: inline-block; padding: 0.25rem 0.9rem; border-radius: 20px; font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; color: white; margin-bottom: 1rem; }
+  .tut-hero h1 { font-size: 2rem; font-weight: 800; color: var(--white); max-width: 700px; margin: 0 auto 0.8rem; letter-spacing: 1px; }
+  .tut-hero p { color: var(--gray); font-size: 0.92rem; max-width: 600px; margin: 0 auto; }
+  .tut-hero .meta { margin-top: 1.2rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.78rem; color: var(--gray); }
+
+  .tut-content { max-width: 1100px; margin: 3rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 280px; gap: 3rem; }
+  @media (max-width: 900px) { .tut-content { grid-template-columns: 1fr; } }
+
+  .tut-section { margin-bottom: 2.5rem; }
+  .tut-section h2 { font-size: 1.15rem; font-weight: 700; color: var(--white); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+  .tut-section h2 .num { color: var(--gold); font-size: 0.9rem; }
+  .tut-section .para { color: var(--gray); font-size: 0.88rem; line-height: 1.8; }
+  .tut-section .para a { color: var(--gold); }
+
+  .step { display: flex; gap: 1rem; margin-bottom: 1.2rem; margin-top: 0.8rem; }
+  .step-num { min-width: 30px; height: 30px; background: var(--gold); color: var(--dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.78rem; flex-shrink: 0; }
+  .step-body h4 { font-size: 0.88rem; color: var(--white); margin-bottom: 0.2rem; }
+  .step-body p { font-size: 0.82rem; color: var(--gray); line-height: 1.7; }
+
+  .tip-box { background: var(--gold-dim); border-left: 3px solid var(--gold); padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin-top: 1rem; }
+  .tip-box .tip-label { font-weight: 700; color: var(--gold); font-size: 0.72rem; letter-spacing: 1.5px; margin-bottom: 0.3rem; }
+  .tip-box p { font-size: 0.82rem; color: var(--gray); line-height: 1.7; }
+
+  .sidebar { position: sticky; top: 5rem; }
+  .sidebar-box { background: var(--dark2); border: 1px solid rgba(198,169,106,0.1); border-radius: 10px; padding: 1.5rem; }
+  .sidebar-box h4 { font-size: 0.82rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; letter-spacing: 1px; }
+  .sidebar-box a { display: block; padding: 0.6rem 0.8rem; background: var(--gold-dim); border-radius: 6px; text-decoration: none; color: var(--cream); font-size: 0.78rem; font-weight: 500; margin-bottom: 0.5rem; transition: background 0.2s; }
+  .sidebar-box a:hover { background: rgba(198,169,106,0.25); }
+  .sidebar-box .all-link { display: block; text-align: center; margin-top: 1rem; font-size: 0.78rem; color: var(--gold); text-decoration: none; font-weight: 600; }
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAkACoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD8/K0dA8P3/ifVItP02Dz7mTnBYKqjIGWJ4A5FX/CvgLXPGf2htKsjLBbjdNcSOI4oh7sf6Zr0vw0viX4DajcQ3mix3MUrrP8Abh58cMoCERtHcKMFQzEjj7ymvUxWMjQi1Bpz7GWDwVTF1FFLT1S+69rndaN+wbqesaGl0vxB8OLfllDWiqxRAW2sxlLLuC8n5VOcHGeK8X+L3wR8VfBLW47DxHbQtDPuNrqNjKJrW5AODtcYww7qwDD0xzX1p4H/AGtbTWYZfDcXhuJLnUrUWcEtz4nt4beHZAwLPJKAFGdzc46gda5v4j/FvXf2lPCmreD9J8I2nmyzxSwi3S41O5edXRS0ckUaxQj5WYu5xtLAcmvncNmeMVVOvZwb8tPu7eh9BWySS5qcYuM4q+rtp/280tfJnxlRivXfid+yp8SfhRps2q6roa32hwk79W0iYXNugBwWfGHQZ4yyge9eRV9dSrU68eelJNeR8lOnOm+WaszvPAXjvxV4UsXm0qxmv9MtHaRm+zStHbMQCzebHgpnAJDHHfHevVPBP7S2tWVndXlr4c1K7S2jaS6u7SIzRCQjiSZoxGFUDOA3ABOOlc78EvjfpHw08MWlpfTa/HdWPiRNfW20gosOoItt5X2WdmcYRj975X+XPGavfC79pO0+C/gjxLZ+HdOnvde1PVrTVbV7xmgs7VhZ3MMytHFKPORWuMJHJlGVcuAQBXmVcJSxE5e0pfPudkK06UY8k/l2PVPD37anh+YC3ufC5vL2WYLCsWhpcSsNqqqgG5BLEgnGDy3eq95+3RpcVs1t/Y+sajCwmhuLC6hs4bWSMk7FMeHI4wGBJ6mqPgn44/BjU/Hlqlx4L03wzYDWkktbp9Lt7eO3tFe1eGaWeNjLG8Ahu8pGG883ChiMDHOa98bPg3qOmtBpfgFNDvzpT2sOptoltfvbXBMG9mjmlCXAkEc+JHUSR+ecZ6DnWVYW+sH95p9drW0kih49/bY8Y+K9D1bSNKsbHw/barbmyvL2MedeT2oDKkO/CoiqjFfkRSQTk5Oa+eBwABwBX0J8XPjf4A+I/hPxF5Xh17fxPqJ0+S0u4tGtLZrYxQW8UsUkyuxeL91KV2JGxMgDEqNo+eq9bD0KdCPLThynFVqTqO85XCiiiuoxF6UlFFABRRRQB//Z" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div><div class="tut-hero">
+  <span class="badge" style="background:#C6A96A">Insurance & Bonding Suite</span>
+  <h1>Performance Bond and Guarantee Management</h1>
+  <p>Track bid bonds, performance bonds, and bank guarantees through project lifecycle.</p>
+  <div class="meta">
+    <span>13 min read</span>
+    <span>Intermediate</span>
+  </div>
+</div>
+<div class="tut-content">
+  <div>
+  <div class="tut-section">
+    <h2><span class="num">01</span> Overview: Why This Matters</h2>
+    <p class="para">In Performance Bond and projects, particularly in the MENA region, systematic performance bond and management is critical for project success. This tutorial walks you through best practices using D. Projects tools.</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Understand Performance Bond and Scope</h4>
+        <p>Learn what performance bond and encompasses in modern construction projects.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Performance Bond and in MENA Context</h4>
+        <p>Discover how regional construction practices shape performance bond and approaches.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Tool Readiness</h4>
+        <p>Ensure D. Projects is configured with necessary fields and templates.</p>
+      </div>
+    </div>
+  <div class="tip-box">
+    <div class="tip-label">Key Insight</div>
+    <p>Organizations implementing structured performance bond and see 30% improvement in project predictability.</p>
+  </div>
+  </div>
+  <div class="tut-section">
+    <h2><span class="num">02</span> Prerequisites and Setup</h2>
+    <p class="para">Before implementing Performance Bond and in your projects, verify you have the right foundation.</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Define Your Standards</h4>
+        <p>Document your organization's performance bond and-specific standards and workflows.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Team Training</h4>
+        <p>Ensure team members understand the methodology and have access to resources.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Data Structure Planning</h4>
+        <p>Plan how performance bond and data will be organized and reported.</p>
+      </div>
+    </div>
+  </div>
+  <div class="tut-section">
+    <h2><span class="num">03</span> Step-by-Step Implementation Guide</h2>
+    <p class="para">Follow this structured approach to implement Performance Bond and tracking using D. Projects.</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Configure Base Setup</h4>
+        <p>Create your performance bond and module with required fields and workflows.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Set Up Templates</h4>
+        <p>Build reusable performance bond and templates that match your processes.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Establish Review Workflows</h4>
+        <p>Define review cycles and approval gates for performance bond and activities.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Integrate with Schedule and Budget</h4>
+        <p>Link performance bond and tracking to your project schedule and costs.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Configure Dashboards</h4>
+        <p>Set up automated reports and dashboards to track performance bond and KPIs.</p>
+      </div>
+    </div>
+  <div class="tip-box">
+    <div class="tip-label">Pro Tip</div>
+    <p>Start with one pilot project to refine your performance bond and processes.</p>
+  </div>
+  <div class="tip-box">
+    <div class="tip-label">Best Practice</div>
+    <p>Conduct monthly performance bond and reviews to identify trends and risks.</p>
+  </div>
+  </div>
+  <div class="tut-section">
+    <h2><span class="num">04</span> Advanced Customization and Optimization</h2>
+    <p class="para">Once your basic Performance Bond and system is operational, consider these enhancements to maximize value.</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Custom Metrics and KPIs</h4>
+        <p>Define organization-specific performance bond and metrics aligned with success criteria.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Workflow Automation</h4>
+        <p>Use automation rules to trigger notifications based on performance bond and conditions.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>External Integration</h4>
+        <p>Connect your performance bond and data with other enterprise systems.</p>
+      </div>
+    </div>
+  <div class="tip-box">
+    <div class="tip-label">Advanced Insight</div>
+    <p>Implement predictive analytics to identify performance bond and risks early.</p>
+  </div>
+  <div class="tip-box">
+    <div class="tip-label">Scalability</div>
+    <p>Design your system to accommodate future complexity without redesign.</p>
+  </div>
+  </div>
+  <div class="tut-section">
+    <h2><span class="num">05</span> Common Pitfalls and How to Avoid Them</h2>
+    <p class="para">Learning from common mistakes helps you avoid costly delays and rework.</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Incomplete Data</h4>
+        <p>Use mandatory field validation and checklists to ensure complete data entry.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Inconsistent Processes</h4>
+        <p>Establish standardized templates and workflows enforced by system configuration.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Poor Communication</h4>
+        <p>Configure automated reporting and schedule regular review meetings.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="sidebar">
+    <div class="sidebar-box">
+      <h4>Related Tutorials</h4>
+      <a href="tut-ins-policy-tracker.html">Construction Insurance Policy Tracking</a>
+      <a href="tutorials.html" class="all-link">View All Tutorials</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

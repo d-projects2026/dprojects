@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Project Team — D. Projects</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --dark: #1A2332; --dark2: #1E2A3A; --dark3: #243044;
+    --teal: #0A3640; --teal2: #0D4A56;
+    --gold: #C6A96A; --gold-light: #D4BC85; --gold-dim: rgba(198,169,106,0.15);
+    --gray: #8A9196; --cream: #F5F3EE; --white: #FFFFFF;
+    --red: #B23026; --green: #2D8B4E; --blue: #2A6496;
+    --orange: #C27A32; --purple: #6B4C8A;
+    --teal-blue: #0D7C94; --brown: #8B6914;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--cream); line-height: 1.6; }
+  a { color: var(--gold); }
+
+  /* HERO SECTION */
+  .hero { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; background: linear-gradient(180deg, var(--dark) 0%, var(--teal) 50%, var(--dark2) 100%); position: relative; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .hero h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: 4px; color: var(--white); margin-bottom: 0.5rem; }
+  .hero .subtitle { font-size: 1rem; color: var(--gray); max-width: 700px; margin-bottom: 1.5rem; line-height: 1.8; }
+  .hero .meta-stats { display: flex; justify-content: center; gap: 2rem; font-size: 0.85rem; color: var(--gold); font-weight: 600; letter-spacing: 1.5px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .hero .meta-stats span { display: flex; align-items: center; gap: 0.4rem; }
+  .hero .meta-stats span::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+  .hero .meta-stats span:first-child::before { display: none; }
+
+  /* FILTER BAR */
+  .filter-bar { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem 2rem; display: flex; gap: 1rem; overflow-x: auto; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .filter-bar .filter-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; margin-right: 1rem; white-space: nowrap; }
+  .filter-btn { padding: 0.6rem 1.2rem; border-radius: 20px; border: 1px solid rgba(198,169,106,0.3); background: transparent; color: var(--cream); font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .filter-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); font-weight: 600; }
+
+  /* DEPARTMENT SECTIONS */
+  .departments-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem; }
+  .department-section { margin-bottom: 4rem; opacity: 1; transition: opacity 0.4s ease; }
+  .department-section.hidden { display: none; }
+  .department-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid transparent; }
+  .department-header .border-accent { width: 5px; height: 40px; border-radius: 3px; flex-shrink: 0; }
+  .department-header h2 { font-size: 1.4rem; font-weight: 700; letter-spacing: 2px; color: var(--white); flex: 1; }
+  .department-header .count-badge { background: rgba(198,169,106,0.15); color: var(--gold); padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; }
+
+  /* SUITE TEAM CARDS */
+  .suite-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+  .suite-card { background: #F5F3EE; border: 1px solid rgba(198,169,106,0.15); border-radius: 10px; padding: 1.8rem; transition: all 0.3s ease; display: flex; flex-direction: column; }
+  .suite-card:hover { border-color: rgba(198,169,106,0.4); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); background: #EEEAE5; }
+  .suite-card-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.2rem; }
+  .suite-card-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+  .suite-card h3 { font-size: 1.1rem; font-weight: 700; color: #1A2332; flex: 1; }
+  .suite-card-badge { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 1.5px; padding: 0.25rem 0.7rem; border-radius: 4px; background: rgba(198,169,106,0.2); color: #8B6914; margin-bottom: 0.3rem; }
+  .suite-card p { font-size: 0.85rem; color: #4A5568; margin-bottom: 1.2rem; line-height: 1.7; flex: 1; }
+  .suite-card-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .suite-card-tag { font-size: 0.65rem; font-weight: 600; letter-spacing: 1px; padding: 0.3rem 0.6rem; border-radius: 4px; background: #1A2332; color: #D4BC85; }
+  .suite-card-cta { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .suite-card-cta a { font-size: 0.78rem; font-weight: 600; color: #1A2332; text-decoration: none; letter-spacing: 1px; padding: 0.5rem 1rem; border-radius: 5px; border: 2px solid #8B6914; transition: all 0.3s; display: inline-block; background: transparent; }
+  .suite-card-cta a:hover { background: rgba(198,169,106,0.15); border-color: #8B6914; color: #8B6914; }
+
+  /* CTA SECTION */
+  .assemble-cta { background: linear-gradient(135deg, var(--teal) 0%, var(--dark2) 100%); border-radius: 12px; padding: 3.5rem 2rem; text-align: center; border: 1px solid rgba(198,169,106,0.15); margin: 4rem 0; max-width: 1200px; margin-left: auto; margin-right: auto; }
+  .assemble-cta h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: 3px; color: var(--white); margin-bottom: 0.8rem; }
+  .assemble-cta p { color: var(--gray); font-size: 0.92rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.8; }
+  .assemble-cta .cta-buttons { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+  .btn { padding: 0.9rem 2rem; border-radius: 5px; font-size: 0.82rem; font-weight: 600; text-decoration: none; letter-spacing: 1.5px; transition: all 0.3s; display: inline-block; }
+  .btn-gold { background: var(--gold); color: var(--dark); }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline { border: 1px solid var(--gold); color: var(--gold); background: transparent; }
+  .btn-outline:hover { background: var(--gold-dim); transform: translateY(-2px); }
+
+  @media (max-width: 900px) {
+    .hero h1 { font-size: 2rem; letter-spacing: 2px; }
+    .hero .subtitle { font-size: 0.92rem; }
+    .filter-bar { padding: 2rem 1.5rem 1.5rem; gap: 0.8rem; }
+    .filter-bar .filter-label { margin-right: 0.5rem; }
+    .filter-btn { padding: 0.5rem 1rem; font-size: 0.75rem; }
+    .suite-grid { grid-template-columns: 1fr; }
+    .department-header h2 { font-size: 1.2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 4rem 1.5rem 3rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero .subtitle { font-size: 0.88rem; }
+    .hero .meta-stats { gap: 1rem; font-size: 0.75rem; }
+    .filter-bar { padding: 1.5rem 1rem; }
+    .departments-container { padding: 0 1.5rem 2rem; }
+    .department-section { margin-bottom: 2.5rem; }
+    .suite-card { padding: 1.5rem; }
+    .assemble-cta { padding: 2rem 1.5rem; margin: 2rem 0; }
+    .assemble-cta h2 { font-size: 1.3rem; }
+  }
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAkACoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD8/K0dA8P3/ifVItP02Dz7mTnBYKqjIGWJ4A5FX/CvgLXPGf2htKsjLBbjdNcSOI4oh7sf6Zr0vw0viX4DajcQ3mix3MUrrP8Abh58cMoCERtHcKMFQzEjj7ymvUxWMjQi1Bpz7GWDwVTF1FFLT1S+69rndaN+wbqesaGl0vxB8OLfllDWiqxRAW2sxlLLuC8n5VOcHGeK8X+L3wR8VfBLW47DxHbQtDPuNrqNjKJrW5AODtcYww7qwDD0xzX1p4H/AGtbTWYZfDcXhuJLnUrUWcEtz4nt4beHZAwLPJKAFGdzc46gda5v4j/FvXf2lPCmreD9J8I2nmyzxSwi3S41O5edXRS0ckUaxQj5WYu5xtLAcmvncNmeMVVOvZwb8tPu7eh9BWySS5qcYuM4q+rtp/280tfJnxlRivXfid+yp8SfhRps2q6roa32hwk79W0iYXNugBwWfGHQZ4yyge9eRV9dSrU68eelJNeR8lOnOm+WaszvPAXjvxV4UsXm0qxmv9MtHaRm+zStHbMQCzebHgpnAJDHHfHevVPBP7S2tWVndXlr4c1K7S2jaS6u7SIzRCQjiSZoxGFUDOA3ABOOlc78EvjfpHw08MWlpfTa/HdWPiRNfW20gosOoItt5X2WdmcYRj975X+XPGavfC79pO0+C/gjxLZ+HdOnvde1PVrTVbV7xmgs7VhZ3MMytHFKPORWuMJHJlGVcuAQBXmVcJSxE5e0pfPudkK06UY8k/l2PVPD37anh+YC3ufC5vL2WYLCsWhpcSsNqqqgG5BLEgnGDy3eq95+3RpcVs1t/Y+sajCwmhuLC6hs4bWSMk7FMeHI4wGBJ6mqPgn44/BjU/Hlqlx4L03wzYDWkktbp9Lt7eO3tFe1eGaWeNjLG8Ahu8pGG883ChiMDHOa98bPg3qOmtBpfgFNDvzpT2sOptoltfvbXBMG9mjmlCXAkEc+JHUSR+ecZ6DnWVYW+sH95p9drW0kih49/bY8Y+K9D1bSNKsbHw/barbmyvL2MedeT2oDKkO/CoiqjFfkRSQTk5Oa+eBwABwBX0J8XPjf4A+I/hPxF5Xh17fxPqJ0+S0u4tGtLZrYxQW8UsUkyuxeL91KV2JGxMgDEqNo+eq9bD0KdCPLThynFVqTqO85XCiiiuoxF6UlFFABRRRQB//Z" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div><main>
+
+<div class="hero">
+  <h1>Your Project Team</h1>
+  <p class="subtitle">50 specialized departments. 200+ templates. Tailored integration. Assemble the exact team your project needs.</p>
+  <div class="meta-stats">
+    <span>50 Departments</span>
+    <span>200+ Templates</span>
+    <span>Fully Integrated</span>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter by:</span>
+  <button class="filter-btn active" data-filter="all">All Departments</button>
+  <button class="filter-btn" data-filter="project-controls">Project Controls</button>
+  <button class="filter-btn" data-filter="procurement">Procurement</button>
+  <button class="filter-btn" data-filter="engineering">Engineering</button>
+  <button class="filter-btn" data-filter="development">Development</button>
+  <button class="filter-btn" data-filter="risk-safety">Risk & Safety</button>
+  <button class="filter-btn" data-filter="people">People</button>
+  <button class="filter-btn" data-filter="digital">Digital & Tech</button>
+  <button class="filter-btn" data-filter="infrastructure">Infrastructure</button>
+  <button class="filter-btn" data-filter="interiors">Interiors</button>
+  <button class="filter-btn" data-filter="sectors">Sectors</button>
+</div>
+
+<div class="departments-container">
+
+  <!-- DEPARTMENT 1: PROJECT CONTROLS & MANAGEMENT -->
+  <section class="department-section" data-department="project-controls">
+    <div class="department-header">
+      <div class="border-accent" style="background: #C6A96A"></div>
+      <h2>Project Controls & Management</h2>
+      <div class="count-badge">6 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C6A96A"></div>
+          <h3>PMO Template Suite</h3>
+        </div>
+        <span class="suite-card-badge">FLAGSHIP</span>
+        <p>Project scheduling, resource planning, cost tracking, and reporting dashboards. The complete project controls system for construction and real estate delivery.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">PMO</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-pmo.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Cost Engineering</h3>
+        </div>
+        <span class="suite-card-badge">COST</span>
+        <p>Cost estimates, BOQ templates, earned value analysis, and budget forecasting. Detailed cost management and financial tracking throughout project lifecycle.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">COST</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-cost-engineering.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C6A96A"></div>
+          <h3>Financial Reporting</h3>
+        </div>
+        <span class="suite-card-badge">FINANCE</span>
+        <p>P&L templates, cash flow forecasts, financial dashboards, and invoice tracking. Comprehensive financial reporting and analysis for stakeholder communication.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">FINANCE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-financial-reporting.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C6A96A"></div>
+          <h3>Schedule & Planning</h3>
+        </div>
+        <span class="suite-card-badge">PLANNING</span>
+        <p>CPM scheduling, baseline management, look-ahead plans, and milestone tracking. Critical path analysis and resource-loaded scheduling for complex project delivery.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">PLANNING</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-schedule-planning.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Document Control</h3>
+        </div>
+        <span class="suite-card-badge">DOCUMENTS</span>
+        <p>Document registers, transmittal logs, revision trackers, and distribution matrices. Centralized documentation management ensuring version control and audit trails.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">CONTROL</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-document-control.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C6A96A"></div>
+          <h3>Change Order Management</h3>
+        </div>
+        <span class="suite-card-badge">CHANGE</span>
+        <p>Change request logs, impact assessments, approval workflows, and cost impact trackers. Systematic change management from initiation through implementation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">CHANGE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-change-order.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 2: PROCUREMENT & CONTRACTS -->
+  <section class="department-section" data-department="procurement">
+    <div class="department-header">
+      <div class="border-accent" style="background: #2A6496"></div>
+      <h2>Procurement & Contracts</h2>
+      <div class="count-badge">5 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2A6496"></div>
+          <h3>Bid & Tender Suite</h3>
+        </div>
+        <span class="suite-card-badge">PROCUREMENT</span>
+        <p>Tender evaluation, bid comparison, prequalification assessment, and pricing models. End-to-end tender lifecycle from bid/no-bid evaluation through response.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">TENDER</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-bid-tender.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2A6496"></div>
+          <h3>Contract Administration</h3>
+        </div>
+        <span class="suite-card-badge">CONTRACTS</span>
+        <p>Contract registers, variation orders, payment certificates, and claims management. Comprehensive contract lifecycle management for construction projects.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">CONTRACT</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-contract-admin.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Procurement & Supply Chain</h3>
+        </div>
+        <span class="suite-card-badge">PROCUREMENT</span>
+        <p>Purchase orders, vendor evaluations, material trackers, and delivery scheduling. End-to-end procurement and supply chain management integration.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">PROCUREMENT</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-procurement-supply.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2A6496"></div>
+          <h3>Subcontractor Management</h3>
+        </div>
+        <span class="suite-card-badge">SUBCONTRACT</span>
+        <p>Subcontractor registers, performance scorecards, payment trackers, and prequalification forms. Complete subcontractor lifecycle management and evaluation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">SUBCONTRACT</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-subcontractor.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Insurance & Bonding</h3>
+        </div>
+        <span class="suite-card-badge">INSURANCE</span>
+        <p>Insurance certificate trackers, bond registers, warranty management, and claims logs. Construction insurance and bonding administration systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">INSURANCE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-insurance-bonding.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 3: ENGINEERING & TECHNICAL -->
+  <section class="department-section" data-department="engineering">
+    <div class="department-header">
+      <div class="border-accent" style="background: #2D8B4E"></div>
+      <h2>Engineering & Technical</h2>
+      <div class="count-badge">7 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Site Supervision & Quality</h3>
+        </div>
+        <span class="suite-card-badge">SITE</span>
+        <p>Inspection checklists, QA/QC tracking, safety reports, and weekly field logs. Field-level quality assurance and inspection management for construction sites.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">QUALITY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-site-supervision.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>MEP Engineering</h3>
+        </div>
+        <span class="suite-card-badge">MEP</span>
+        <p>MEP schedules, equipment logs, commissioning checklists, and coordination matrices. Mechanical, electrical, and plumbing engineering coordination systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">MEP</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-mep.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #6B4C8A"></div>
+          <h3>Structural Engineering</h3>
+        </div>
+        <span class="suite-card-badge">STRUCTURAL</span>
+        <p>Structural calculations, rebar schedules, concrete pour logs, and inspection forms. Complete structural engineering and verification documentation systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">STRUCTURAL</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-structural.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C6A96A"></div>
+          <h3>Architecture & Design</h3>
+        </div>
+        <span class="suite-card-badge">DESIGN</span>
+        <p>Design briefs, material schedules, room data sheets, and finishing trackers. Architectural documentation and material management throughout design delivery.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">DESIGN</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-architecture.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>Civil & Infrastructure</h3>
+        </div>
+        <span class="suite-card-badge">CIVIL</span>
+        <p>Earthworks calculations, drainage design, road alignment, and utility coordination. Civil engineering documentation for site development and infrastructure delivery.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">CIVIL</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-civil.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #B23026"></div>
+          <h3>Fire Protection & Life Safety</h3>
+        </div>
+        <span class="suite-card-badge">FIRESAFETY</span>
+        <p>Fire alarm schedules, sprinkler layouts, evacuation plans, and code compliance checklists. Life safety engineering systems and fire protection documentation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">FIRESAFETY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-fire-protection.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>Electrical Power Systems</h3>
+        </div>
+        <span class="suite-card-badge">ELECTRICAL</span>
+        <p>Single-line diagrams, cable schedules, panel boards, and load calculations. Electrical power distribution design and installation documentation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">ELECTRICAL</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-electrical.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 4: DEVELOPMENT & ADVISORY -->
+  <section class="department-section" data-department="development">
+    <div class="department-header">
+      <div class="border-accent" style="background: #6B4C8A"></div>
+      <h2>Development & Advisory</h2>
+      <div class="count-badge">6 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>Feasibility & Dev Advisory</h3>
+        </div>
+        <span class="suite-card-badge">DEVELOPMENT</span>
+        <p>Market analysis, financial modeling, investor reporting, and feasibility studies. Pre-development analysis and investment advisory tools for real estate projects.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">ADVISORY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-feasibility.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #6B4C8A"></div>
+          <h3>Due Diligence & Automation</h3>
+        </div>
+        <span class="suite-card-badge">DIGITAL</span>
+        <p>KPI dashboards, portfolio tracking, compliance checklists, and automation workflows. Advanced dashboards and automated reporting for real-time monitoring.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">AUTOMATION</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-due-diligence.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C6A96A"></div>
+          <h3>Real Estate Development</h3>
+        </div>
+        <span class="suite-card-badge">REALESTATE</span>
+        <p>Unit trackers, sales dashboards, payment plans, and investor reports. Real estate development project management and delivery systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">REALESTATE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-real-estate.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>Land & Survey</h3>
+        </div>
+        <span class="suite-card-badge">SURVEY</span>
+        <p>Survey logs, boundary reports, topographic data, and land acquisition trackers. Land development and survey documentation and management tools.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">SURVEY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-land-survey.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #6B4C8A"></div>
+          <h3>Master Planning</h3>
+        </div>
+        <span class="suite-card-badge">MASTERPLAN</span>
+        <p>Phase delivery plans, area schedules, land use analysis, and infrastructure mapping. Master plan coordination from concept through detailed design approval.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">MASTERPLAN</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-master-planning.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C6A96A"></div>
+          <h3>Investment & Portfolio Analysis</h3>
+        </div>
+        <span class="suite-card-badge">INVESTMENT</span>
+        <p>IRR calculators, sensitivity analysis, capital allocation models, and portfolio dashboards. Investment performance analysis and strategic portfolio management tools.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">INVESTMENT</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-investment.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 5: RISK, SAFETY & COMPLIANCE -->
+  <section class="department-section" data-department="risk-safety">
+    <div class="department-header">
+      <div class="border-accent" style="background: #B23026"></div>
+      <h2>Risk, Safety & Compliance</h2>
+      <div class="count-badge">5 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #B23026"></div>
+          <h3>Risk & Safety Management</h3>
+        </div>
+        <span class="suite-card-badge">SAFETY</span>
+        <p>Risk registers, HSE checklists, incident reports, and safety dashboards. Comprehensive health, safety, and environmental management systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">SAFETY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-risk-safety.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>Environmental & Sustainability</h3>
+        </div>
+        <span class="suite-card-badge">SUSTAINABILITY</span>
+        <p>EIA trackers, sustainability scorecards, waste management logs, and carbon calculators. Environmental impact and sustainability monitoring systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">ENV</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-environmental.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #B23026"></div>
+          <h3>Legal & Compliance</h3>
+        </div>
+        <span class="suite-card-badge">LEGAL</span>
+        <p>Permit trackers, regulatory checklists, license registers, and compliance dashboards. Legal and regulatory compliance management and verification.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">LEGAL</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-legal.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #B23026"></div>
+          <h3>Permit & Approvals</h3>
+        </div>
+        <span class="suite-card-badge">PERMITS</span>
+        <p>Permit trackers, authority submission logs, NOC registers, and approval workflows. Government authority and regulatory approval management systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">PERMITS</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-permits.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Insurance Claims & Recovery</h3>
+        </div>
+        <span class="suite-card-badge">CLAIMS</span>
+        <p>Claims registers, loss adjusting reports, recovery trackers, and dispute resolution logs. Construction insurance claims processing and recovery management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">CLAIMS</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-claims.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 6: PEOPLE & STAKEHOLDERS -->
+  <section class="department-section" data-department="people">
+    <div class="department-header">
+      <div class="border-accent" style="background: #C27A32"></div>
+      <h2>People & Stakeholders</h2>
+      <div class="count-badge">5 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #6B4C8A"></div>
+          <h3>Human Resources & Workforce</h3>
+        </div>
+        <span class="suite-card-badge">HR</span>
+        <p>Staff registers, timesheet templates, training logs, and workforce planning. Human resources and workforce management systems for projects.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">HR</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-hr.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2A6496"></div>
+          <h3>Client & Stakeholder</h3>
+        </div>
+        <span class="suite-card-badge">STAKEHOLDER</span>
+        <p>Stakeholder maps, client reports, meeting minutes, and communication logs. Client relationship and stakeholder engagement management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">CLIENT</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-stakeholder.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>Handover & Closeout</h3>
+        </div>
+        <span class="suite-card-badge">CLOSEOUT</span>
+        <p>Punch lists, O&M manuals, warranty trackers, and as-built documentation. Project closeout and handover management systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">CLOSEOUT</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-handover.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Training & Competency</h3>
+        </div>
+        <span class="suite-card-badge">TRAINING</span>
+        <p>Training matrices, competency frameworks, certification trackers, and development plans. Workforce competency assessment and professional development management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">TRAINING</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-training.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Community & Public Relations</h3>
+        </div>
+        <span class="suite-card-badge">COMMUNITY</span>
+        <p>Community engagement plans, public notification registers, CSR trackers, and grievance logs. Public relations and community liaison management systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">COMMUNITY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-community.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 7: DIGITAL & TECHNOLOGY -->
+  <section class="department-section" data-department="digital">
+    <div class="department-header">
+      <div class="border-accent" style="background: #0D7C94"></div>
+      <h2>Digital & Technology</h2>
+      <div class="count-badge">5 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #0D7C94"></div>
+          <h3>BIM Coordination</h3>
+        </div>
+        <span class="suite-card-badge">BIM</span>
+        <p>BIM execution plans, model audit checklists, clash detection reports, and LOD matrices. Building Information Modeling coordination and quality management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">BIM</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-bim.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #6B4C8A"></div>
+          <h3>Data Analytics & BI</h3>
+        </div>
+        <span class="suite-card-badge">ANALYTICS</span>
+        <p>BI dashboard templates, KPI automation, data visualization models, and reporting frameworks. Business intelligence and advanced analytics for project decision-making.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">ANALYTICS</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-analytics.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #0D7C94"></div>
+          <h3>Drone & Remote Monitoring</h3>
+        </div>
+        <span class="suite-card-badge">DRONE</span>
+        <p>Drone flight plans, photogrammetry reports, progress capture templates, and inspection logs. Remote monitoring and drone-based inspection documentation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">DRONE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-drone.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2D8B4E"></div>
+          <h3>IoT & Smart Systems</h3>
+        </div>
+        <span class="suite-card-badge">IOT</span>
+        <p>Sensor deployment plans, building automation schedules, energy monitoring dashboards, and smart system commissioning. IoT integration and smart building management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">IOT</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-iot.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #0D7C94"></div>
+          <h3>Digital Twin & Simulation</h3>
+        </div>
+        <span class="suite-card-badge">DIGITALTWIN</span>
+        <p>Digital twin setup frameworks, simulation models, predictive maintenance schedules, and performance benchmarks. Digital twin deployment and operational simulation tools.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">DIGITALTWIN</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-digital-twin.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 8: INFRASTRUCTURE & UTILITIES -->
+  <section class="department-section" data-department="infrastructure">
+    <div class="department-header">
+      <div class="border-accent" style="background: #2A6496"></div>
+      <h2>Infrastructure & Utilities</h2>
+      <div class="count-badge">5 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2A6496"></div>
+          <h3>Roads & Highways</h3>
+        </div>
+        <span class="suite-card-badge">ROADS</span>
+        <p>Road design templates, traffic management plans, pavement design calculations, and signage schedules. Highway and road construction project management documentation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">ROADS</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-roads.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #0D7C94"></div>
+          <h3>Water & Wastewater</h3>
+        </div>
+        <span class="suite-card-badge">WATER</span>
+        <p>Water supply network models, sewage treatment logs, pipeline inspection trackers, and flow calculations. Water infrastructure design and asset management systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">WATER</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-water.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Power & Energy Systems</h3>
+        </div>
+        <span class="suite-card-badge">ENERGY</span>
+        <p>Power generation models, grid connection plans, renewable energy assessments, and energy audit templates. Power infrastructure and energy systems engineering documentation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">ENERGY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-power.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #6B4C8A"></div>
+          <h3>Telecom & Networks</h3>
+        </div>
+        <span class="suite-card-badge">TELECOM</span>
+        <p>Cable routing schedules, network topology maps, fiber optic trackers, and bandwidth calculations. Telecommunications infrastructure planning and installation management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">TELECOM</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-telecom.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #2A6496"></div>
+          <h3>Marine & Coastal Engineering</h3>
+        </div>
+        <span class="suite-card-badge">MARINE</span>
+        <p>Tidal analysis models, coastal protection designs, port facility plans, and marine survey logs. Marine and coastal engineering project documentation.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">MARINE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-marine.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 9: INTERIORS & SPECIALTY -->
+  <section class="department-section" data-department="interiors">
+    <div class="department-header">
+      <div class="border-accent" style="background: #8B6914"></div>
+      <h2>Interiors & Specialty</h2>
+      <div class="count-badge">3 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #8B6914"></div>
+          <h3>Interior Design & FF&E</h3>
+        </div>
+        <span class="suite-card-badge">INTERIORS</span>
+        <p>FF&E schedules, finish boards, furniture procurement trackers, and room data sheets. Interior design coordination and fit-out project management tools.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">INTERIORS</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-interiors.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Kitchen & Specialized Spaces</h3>
+        </div>
+        <span class="suite-card-badge">SPECIALTY</span>
+        <p>Commercial kitchen layouts, laboratory designs, cleanroom specifications, and equipment schedules. Specialized space design and equipment coordination.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">SPECIALTY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-kitchen.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #8B6914"></div>
+          <h3>Facade & Cladding Systems</h3>
+        </div>
+        <span class="suite-card-badge">FACADE</span>
+        <p>Facade engineering trackers, cladding schedules, weatherproofing checklists, and performance testing logs. Building envelope design and quality management systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">FACADE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-facade.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENT 10: SECTOR SOLUTIONS -->
+  <section class="department-section" data-department="sectors">
+    <div class="department-header">
+      <div class="border-accent" style="background: #6B4C8A"></div>
+      <h2>Sector Solutions</h2>
+      <div class="count-badge">3 Specialists</div>
+    </div>
+    <div class="suite-grid">
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #6B4C8A"></div>
+          <h3>Hotel & Resort Delivery</h3>
+        </div>
+        <span class="suite-card-badge">HOSPITALITY</span>
+        <p>Room inventory matrices, FF&E specifications, brand compliance checklists, and pre-opening trackers. Hospitality project delivery and operator coordination systems.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.PPTX</span>
+          <span class="suite-card-tag">HOSPITALITY</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-hotel.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #B23026"></div>
+          <h3>Healthcare Facility Planning</h3>
+        </div>
+        <span class="suite-card-badge">HEALTHCARE</span>
+        <p>Medical equipment plans, infection control layouts, regulatory compliance trackers, and commissioning protocols. Healthcare facility design and construction management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">HEALTHCARE</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-healthcare.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+
+      <div class="suite-card">
+        <div class="suite-card-header">
+          <div class="suite-card-dot" style="background: #C27A32"></div>
+          <h3>Industrial & Manufacturing</h3>
+        </div>
+        <span class="suite-card-badge">INDUSTRIAL</span>
+        <p>Process flow diagrams, equipment installation plans, commissioning checklists, and production line layouts. Industrial facility construction and commissioning management.</p>
+        <div class="suite-card-tags">
+          <span class="suite-card-tag">.XLSX</span>
+          <span class="suite-card-tag">.DOCX</span>
+          <span class="suite-card-tag">INDUSTRIAL</span>
+        </div>
+        <div class="suite-card-cta">
+          <a href="suite-industrial.html">View Suite →</a>
+          <a href="rfq.html">Request Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ASSEMBLE YOUR TEAM CTA -->
+<div class="assemble-cta">
+  <h2>ASSEMBLE YOUR TEAM</h2>
+  <p>All 50 specialist departments available for enterprise clients. Request a custom package tailored to your project delivery model, team structure, and business requirements.</p>
+  <div class="cta-buttons">
+    <a href="templates.html" class="btn btn-gold">Browse All Templates</a>
+    <a href="rfq.html" class="btn btn-outline">Request Custom Quote</a>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

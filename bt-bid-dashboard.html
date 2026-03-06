@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D. Projects — Bid Comparison Dashboard</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496; --white:#FFFFFF; --gold-light:#D4BC85}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff;min-height:100vh}
+.dash{max-width:1200px;margin:0 auto;padding:20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(198,169,106,0.2);margin-bottom:25px}
+.top img{height:40px}
+.top h1{font-size:1.2rem;color:var(--gold);letter-spacing:1px}
+.top .info{color:var(--gray);font-size:0.8rem;text-align:right}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--dark2);border-radius:10px;border:1px solid rgba(198,169,106,0.12);padding:20px;overflow:hidden}
+.card h3{color:var(--gold);font-size:0.85rem;font-weight:600;margin-bottom:15px;text-transform:uppercase;letter-spacing:0.5px}
+.bidder-card{text-align:center;position:relative;cursor:pointer;transition:all 0.3s}
+.bidder-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.bidder-card.winner{border-color:var(--green);box-shadow:0 0 20px rgba(45,139,78,0.2)}
+.bidder-card .rank{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem}
+.rank-1{background:var(--gold);color:var(--dark)}
+.rank-2{background:rgba(198,169,106,0.3);color:var(--gold)}
+.rank-3{background:rgba(138,145,150,0.3);color:var(--gray)}
+.rank-4{background:rgba(138,145,150,0.15);color:var(--gray)}
+.bidder-card .name{font-size:1rem;font-weight:700;color:var(--cream);margin:10px 0 5px}
+.bidder-card .price{font-size:1.6rem;font-weight:800;color:var(--gold)}
+.bidder-card .var{font-size:0.8rem;margin-top:4px}
+.bidder-card .scores{display:flex;justify-content:center;gap:15px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05)}
+.bidder-card .sc{text-align:center}
+.bidder-card .sc .sv{font-size:1.1rem;font-weight:700}
+.bidder-card .sc .sl{font-size:0.65rem;color:var(--gray)}
+.chart-wrap{position:relative;height:300px}
+.comp-table{width:100%;border-collapse:collapse;font-size:0.78rem}
+.comp-table th{background:var(--teal);color:#fff;padding:10px 8px;text-align:left;font-weight:600}
+.comp-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--cream)}
+.comp-table tr:nth-child(even) td{background:rgba(10,54,64,0.1)}
+.comp-table .best{color:var(--green);font-weight:600}
+.comp-table .worst{color:var(--red)}
+.bar-mini{width:100%;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-top:4px}
+.bar-mini-fill{height:100%;border-radius:3px}
+.rec-box{background:linear-gradient(135deg,rgba(45,139,78,0.15),rgba(10,54,64,0.3));border:1px solid var(--green);border-radius:10px;padding:25px;text-align:center}
+.rec-box h3{color:var(--green);font-size:1.1rem;margin-bottom:8px}
+.rec-box .winner-name{font-size:1.8rem;font-weight:800;color:var(--gold);margin:10px 0}
+.rec-box p{color:var(--gray);font-size:0.85rem;line-height:1.5}
+
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}.chart-wrap{height:220px}}
+   @media(max-width:414px){
+     .hero{padding:4rem 1.2rem 2.5rem}
+     .hero h1{font-size:1.8rem}
+     .hero p{font-size:0.82rem}
+     section{padding:2.5rem 1.2rem}
+   }
+
+/* NAV */
+
+/* HAMBURGER */
+
+/* FOOTER */
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div>
+<div class="dash">
+  <div class="top">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects">
+    <h1>BID COMPARISON DASHBOARD</h1>
+    <div class="info">Al Maadi Heights — Phase 2<br>Tender Ref: DPT-2026-042</div>
+  </div>
+
+  <!-- BIDDER CARDS -->
+  <div class="grid g4" style="margin-bottom:20px">
+    <div class="card bidder-card">
+      <div class="rank rank-3">3</div>
+      <div class="name">Company A</div>
+      <div class="price">USD 793M</div>
+      <div class="var" style="color:var(--red)">+10.6% vs estimate</div>
+      <div class="scores">
+        <div class="sc"><div class="sv" style="color:var(--blue)">75.5</div><div class="sl">Technical</div></div>
+        <div class="sc"><div class="sv" style="color:var(--green)">85.4</div><div class="sl">Commercial</div></div>
+        <div class="sc"><div class="sv" style="color:var(--gold)">79.5</div><div class="sl">Combined</div></div>
+      </div>
+    </div>
+    <div class="card bidder-card winner">
+      <div class="rank rank-1">1</div>
+      <div class="name">Company B</div>
+      <div class="price">USD 749M</div>
+      <div class="var" style="color:var(--green)">+4.5% vs estimate</div>
+      <div class="scores">
+        <div class="sc"><div class="sv" style="color:var(--blue)">84.0</div><div class="sl">Technical</div></div>
+        <div class="sc"><div class="sv" style="color:var(--green)">90.4</div><div class="sl">Commercial</div></div>
+        <div class="sc"><div class="sv" style="color:var(--gold)">86.6</div><div class="sl">Combined</div></div>
+      </div>
+    </div>
+    <div class="card bidder-card">
+      <div class="rank rank-2">2</div>
+      <div class="name">Company C</div>
+      <div class="price">USD 768M</div>
+      <div class="var" style="color:var(--red)">+7.1% vs estimate</div>
+      <div class="scores">
+        <div class="sc"><div class="sv" style="color:var(--blue)">82.0</div><div class="sl">Technical</div></div>
+        <div class="sc"><div class="sv" style="color:var(--green)">88.2</div><div class="sl">Commercial</div></div>
+        <div class="sc"><div class="sv" style="color:var(--gold)">84.5</div><div class="sl">Combined</div></div>
+      </div>
+    </div>
+    <div class="card bidder-card">
+      <div class="rank rank-4">4</div>
+      <div class="name">Company D Egypt</div>
+      <div class="price">USD 730M</div>
+      <div class="var" style="color:var(--green)">+1.8% vs estimate</div>
+      <div class="scores">
+        <div class="sc"><div class="sv" style="color:var(--blue)">74.0</div><div class="sl">Technical</div></div>
+        <div class="sc"><div class="sv" style="color:var(--green)">92.7</div><div class="sl">Commercial</div></div>
+        <div class="sc"><div class="sv" style="color:var(--gold)">81.5</div><div class="sl">Combined</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="grid g2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>Bid Price Breakdown by Section (USD M)</h3>
+      <div class="chart-wrap"><canvas id="breakdownChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Technical vs Commercial Score</h3>
+      <div class="chart-wrap"><canvas id="scatterChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- DETAIL TABLE -->
+  <div class="card" style="margin-bottom:20px">
+    <h3>Section-by-Section Comparison (USD Millions)</h3>
+    <table class="comp-table">
+      <thead>
+        <tr><th>Section</th><th>Engineer's Est.</th><th>Company A</th><th>Company B</th><th>Company C</th><th>Company D</th><th>Spread</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Substructure</td><td>41.0</td><td>42.0</td><td class="best">38.5</td><td>40.2</td><td>39.8</td><td>9.1%</td></tr>
+        <tr><td>Superstructure</td><td>175.0</td><td>185.0</td><td>172.0</td><td>178.0</td><td class="best">168.0</td><td>10.1%</td></tr>
+        <tr><td>External Envelope</td><td>57.0</td><td>58.0</td><td>62.0</td><td class="best">55.0</td><td>60.0</td><td>12.7%</td></tr>
+        <tr><td>Internal Finishes</td><td>120.0</td><td>125.0</td><td>118.0</td><td>122.0</td><td class="best">115.0</td><td>8.7%</td></tr>
+        <tr><td>MEP Works</td><td>190.0</td><td>195.0</td><td>188.0</td><td>192.0</td><td class="best">185.0</td><td>5.4%</td></tr>
+        <tr><td>External Works</td><td>46.0</td><td>48.0</td><td>45.0</td><td>47.0</td><td class="best">42.0</td><td>14.3%</td></tr>
+        <tr><td>Preliminaries</td><td>80.0</td><td>85.0</td><td>78.0</td><td>82.0</td><td class="best">75.0</td><td>13.3%</td></tr>
+        <tr><td>Profit & OH</td><td>50.0</td><td>55.0</td><td class="best">48.0</td><td>52.0</td><td>45.0</td><td>22.2%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="grid g2">
+    <div class="card">
+      <h3>Technical Criteria Scores (out of 10)</h3>
+      <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+    </div>
+    <div class="card rec-box">
+      <h3>TENDER RECOMMENDATION</h3>
+      <div class="winner-name">Company B Contracting</div>
+      <p>Highest combined score (86.6) with strong technical capability (84.0) and competitive pricing (USD 749M). Recommended for contract award subject to final negotiations and board approval.</p>
+      <div style="margin-top:15px;display:flex;justify-content:center;gap:20px">
+        <div><span style="font-size:1.3rem;font-weight:800;color:var(--gold)">86.6</span><br><span style="font-size:0.7rem;color:var(--gray)">Combined Score</span></div>
+        <div><span style="font-size:1.3rem;font-weight:800;color:var(--blue)">84.0</span><br><span style="font-size:0.7rem;color:var(--gray)">Technical</span></div>
+        <div><span style="font-size:1.3rem;font-weight:800;color:var(--green)">90.4</span><br><span style="font-size:0.7rem;color:var(--gray)">Commercial</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong style="color:var(--gold)">D. PROJECTS</strong> | Tender Evaluation Report | Confidential — For internal use only
+  </div>
+</div>
+
+<script>
+const gold='#C6A96A',teal='#0A3640',green='#2D8B4E',red='#B23026',blue='#2A6496',gray='#8A9196',purple='#6B4C8A';
+Chart.defaults.color=gray;
+Chart.defaults.borderColor='rgba(255,255,255,0.05)';
+
+const sections=['Substructure','Superstructure','Ext. Envelope','Int. Finishes','MEP','External','Prelim.','Profit'];
+new Chart(document.getElementById('breakdownChart'),{
+  type:'bar',
+  data:{
+    labels:sections,
+    datasets:[
+      {label:'Company A',data:[42,185,58,125,195,48,85,55],backgroundColor:'rgba(178,48,38,0.6)'},
+      {label:'Company B',data:[38.5,172,62,118,188,45,78,48],backgroundColor:'rgba(198,169,106,0.7)'},
+      {label:'Company C',data:[40.2,178,55,122,192,47,82,52],backgroundColor:'rgba(42,100,150,0.6)'},
+      {label:'Company D',data:[39.8,168,60,115,185,42,75,45],backgroundColor:'rgba(107,76,138,0.6)'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:{y:{ticks:{callback:v=>v+'M'}}}}
+});
+
+new Chart(document.getElementById('scatterChart'),{
+  type:'bubble',
+  data:{
+    datasets:[
+      {label:'Company A',data:[{x:75.5,y:85.4,r:12}],backgroundColor:'rgba(178,48,38,0.7)'},
+      {label:'Company B',data:[{x:84.0,y:90.4,r:15}],backgroundColor:'rgba(198,169,106,0.8)'},
+      {label:'Company C',data:[{x:82.0,y:88.2,r:13}],backgroundColor:'rgba(42,100,150,0.7)'},
+      {label:'Company D',data:[{x:74.0,y:92.7,r:11}],backgroundColor:'rgba(107,76,138,0.7)'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:{x:{title:{display:true,text:'Technical Score',color:gray},min:65,max:95},y:{title:{display:true,text:'Commercial Score',color:gray},min:80,max:100}}}
+});
+
+new Chart(document.getElementById('radarChart'),{
+  type:'radar',
+  data:{
+    labels:['Experience','Similar Projects','Key Personnel','Methodology','QMS','HSE','Programme','Equipment','Subcon Mgmt','Financial'],
+    datasets:[
+      {label:'Company B',data:[9,9,8,8,9,8,7,9,8,9],borderColor:gold,backgroundColor:'rgba(198,169,106,0.15)',pointRadius:3},
+      {label:'Company C',data:[7,8,9,8,8,9,8,8,7,9],borderColor:blue,backgroundColor:'rgba(42,100,150,0.1)',pointRadius:3},
+      {label:'Company A',data:[8,7,8,7,8,7,8,7,6,8],borderColor:red,backgroundColor:'rgba(178,48,38,0.1)',pointRadius:3},
+      {label:'Company D',data:[8,6,7,7,9,8,6,9,7,8],borderColor:purple,backgroundColor:'rgba(107,76,138,0.1)',pointRadius:3}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,color:gray},grid:{color:'rgba(255,255,255,0.05)'},pointLabels:{font:{size:9},color:gray}}}}
+});
+</script>
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

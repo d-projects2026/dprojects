@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <title>Procurement & Supply Chain - D. Projects</title>
+  
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496;--sc:#C27A32; --white:#FFFFFF; --gold-light:#D4BC85}body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff;line-height:1.6}
+.hero{text-align:center;padding:60px 30px 40px;background:linear-gradient(180deg,var(--dark),var(--dark2))}.hero .badge{display:inline-block;padding:6px 18px;border:1px solid var(--sc);color:var(--sc);border-radius:20px;font-size:.75rem;font-weight:600;letter-spacing:1px;margin-bottom:15px}.hero h1{font-size:2.2rem;font-weight:800;color:var(--cream);margin-bottom:12px}.hero h1 span{color:var(--sc)}.hero p{color:var(--gray);font-size:.95rem;max-width:700px;margin:0 auto;line-height:1.7}.hero-stats{display:flex;justify-content:center;gap:2.5rem;margin-top:25px;flex-wrap:wrap}.hero-stat{text-align:center}.hero-stat .num{font-size:1.6rem;font-weight:800;color:var(--sc)}.hero-stat .lbl{font-size:.68rem;color:var(--gray);letter-spacing:1px}
+.products{padding:50px 30px;max-width:1100px;margin:0 auto}.products h2{text-align:center;color:var(--gold);font-size:1.2rem;margin-bottom:35px;letter-spacing:1.5px}.product-card{background:var(--dark2);border-radius:12px;border:1px solid rgba(198,169,106,0.1);margin-bottom:30px;overflow:hidden;transition:border-color .3s}.product-card:hover{border-color:rgba(198,169,106,0.25)}.product-top{display:flex;gap:25px;padding:25px}.product-info{flex:1}.tag{display:inline-block;padding:4px 10px;border-radius:4px;font-size:.68rem;font-weight:600;letter-spacing:.5px;margin-bottom:8px}.tag-xlsx{background:rgba(45,139,78,0.15);color:var(--green)}.tag-dash{background:rgba(42,100,150,0.15);color:var(--blue)}.tag-docx{background:rgba(198,169,106,0.15);color:var(--gold)}.tag-pptx{background:rgba(107,76,138,0.15);color:#6B4C8A}.tag-form{background:rgba(13,124,148,0.15);color:#0D7C94}.tag-check{background:rgba(178,48,38,0.15);color:var(--red)}.product-info h3{font-size:1.15rem;color:var(--cream);margin-bottom:6px}.product-info>p{color:var(--gray);font-size:.82rem;line-height:1.65;margin-bottom:12px}.flist{list-style:none;padding:0}.flist li{color:var(--cream);font-size:.78rem;padding:3px 0 3px 16px;position:relative}.flist li::before{content:"▸";color:var(--sc);position:absolute;left:0}.product-preview{flex:0 0 360px;background:var(--dark);border-radius:8px;padding:14px;border:1px solid rgba(255,255,255,0.04);overflow:hidden}.mm{font-size:.7rem;color:var(--gray)}.mm .mh{background:var(--teal);color:#fff;padding:7px 11px;border-radius:4px 4px 0 0;font-weight:600;font-size:.72rem}.mm .mr{display:flex;padding:5px 11px;border-bottom:1px solid rgba(255,255,255,0.04)}.mm .mr:nth-child(even){background:rgba(10,54,64,0.08)}.mm .mc{flex:1;padding:2px 4px;color:var(--cream);font-size:.68rem}.mm .mc.g{color:var(--gold);font-weight:600}.mm .mc.gn{color:var(--green)}.mm .mc.r{color:var(--red)}.mm .mc.o{color:#C27A32}.mm .kpis{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:9px}.mm .kb{background:rgba(42,100,150,0.08);border:1px solid rgba(42,100,150,0.15);border-radius:5px;padding:8px;text-align:center}.mm .kb .v{font-size:1rem;font-weight:800;color:var(--sc)}.mm .kb .l{font-size:.58rem;color:var(--gray);margin-top:2px}.mm .ml{padding:10px}.mm .ml .lt{color:var(--gray);font-size:.66rem;padding:3px 0}.product-actions{display:flex;gap:8px;padding:0 25px 18px}.product-actions a{padding:7px 18px;border-radius:5px;text-decoration:none;font-size:.78rem;font-weight:600;transition:all .3s}.bp{background:var(--sc);color:#fff}.bs{border:1px solid var(--sc);color:var(--sc)}
+.demo{padding:50px 30px;max-width:1100px;margin:0 auto}.demo h2{text-align:center;color:var(--gold);font-size:1.2rem;margin-bottom:25px;letter-spacing:1px}.demo-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:25px}.dk{background:var(--dark2);border:1px solid rgba(198,169,106,0.1);border-radius:8px;padding:15px;text-align:center}.dk .dv{font-size:1.4rem;font-weight:800;margin-bottom:3px}.dk .dl{font-size:.68rem;color:var(--gray)}.chart-box{background:var(--dark2);border-radius:10px;padding:20px;border:1px solid rgba(198,169,106,0.1)}.bars{display:flex;align-items:flex-end;gap:12px;height:180px}.bars .bg{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}.bars .b{width:100%;border-radius:3px 3px 0 0;transition:height .8s}.bars .bl{font-size:.62rem;color:var(--gray)}.bars .bv{font-size:.68rem;font-weight:600;color:var(--cream)}.prg{display:flex;flex-direction:column;gap:12px}.prg .pi{display:flex;align-items:center;gap:12px}.prg .pl{flex:0 0 130px;font-size:.78rem;color:var(--cream)}.prg .pt{flex:1;height:22px;background:rgba(255,255,255,0.04);border-radius:10px;overflow:hidden}.prg .pf{height:100%;border-radius:10px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.62rem;font-weight:700;color:#fff}.prg .pv{flex:0 0 45px;text-align:right;font-size:.78rem;font-weight:600}.dt{width:100%;border-collapse:collapse}.dt th{padding:8px 10px;text-align:left;font-size:.68rem;color:var(--gold);border-bottom:2px solid rgba(198,169,106,0.2)}.dt td{padding:7px 10px;font-size:.75rem;color:var(--cream);border-bottom:1px solid rgba(255,255,255,0.04)}.dt tr:hover{background:rgba(10,54,64,0.15)}.st{padding:3px 7px;border-radius:3px;font-size:.62rem;font-weight:600}.st-ok{background:rgba(45,139,78,0.15);color:var(--green)}.st-act{background:rgba(42,100,150,0.15);color:var(--blue)}.st-warn{background:rgba(194,122,50,0.15);color:#C27A32}.st-bad{background:rgba(178,48,38,0.15);color:var(--red)}.st-plan{background:rgba(138,145,150,0.15);color:var(--gray)}
+.flow{padding:40px 30px;max-width:900px;margin:0 auto}.flow h2{text-align:center;color:var(--gold);font-size:1.2rem;margin-bottom:25px}.fc{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}.fn{background:var(--dark2);border:1px solid rgba(198,169,106,0.12);border-radius:7px;padding:10px 14px;text-align:center;min-width:90px}.fn .fe{font-size:.62rem;font-weight:700;color:var(--sc);letter-spacing:1px}.fn .nm{font-size:.7rem;color:var(--cream)}.fa{color:var(--gold);font-size:1.1rem}.fh{background:linear-gradient(135deg,var(--teal),var(--dark2));border:2px solid var(--sc);border-radius:50%;width:55px;height:55px;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:var(--sc);letter-spacing:1px}
+.why{padding:40px 30px;max-width:1100px;margin:0 auto}.why h2{text-align:center;color:var(--gold);font-size:1.2rem;margin-bottom:25px}.wg{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.wc{background:var(--dark2);border-radius:8px;padding:22px;border-left:3px solid var(--sc)}.wc h4{color:var(--sc);font-size:.9rem;margin-bottom:6px}.wc p{color:var(--gray);font-size:.78rem;line-height:1.5}
+.cta{text-align:center;padding:45px 30px;background:linear-gradient(135deg,var(--teal),var(--dark))}.cta h2{color:var(--gold);font-size:1.4rem;margin-bottom:8px}.cta>p{color:var(--cream);font-size:.88rem;margin-bottom:18px}.cta a{display:inline-block;padding:12px 30px;border-radius:5px;text-decoration:none;font-weight:700;margin:0 6px;font-size:.82rem}.cta .cb1{background:var(--sc);color:#fff}.cta .cb2{border:1px solid var(--sc);color:var(--sc)}
+@media(max-width:900px){.product-top{flex-direction:column}.product-preview{flex:auto}.wg{grid-template-columns:1fr}.demo-kpis{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:1.8rem}.fc{flex-direction:column}}@media(max-width:414px){.hero{padding:3.5rem 1.2rem 2rem}.demo-kpis{grid-template-columns:1fr}}
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+  
+
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div><section class="hero">
+      <div class="badge">PROCUREMENT</div>
+      <h1>Procurement <span>& Supply Chain</span></h1>
+      <p>Supply chain planning and procurement management with vendor management and material tracking systems.</p>
+      <div class="hero-stats"><div class="hero-stat"><div class="num">2,100+</div><div class="lbl">Purchase Orders</div></div><div class="hero-stat"><div class="num">$3.8B</div><div class="lbl">Material Cost</div></div><div class="hero-stat"><div class="num">94%</div><div class="lbl">On-Time Delivery</div></div><div class="hero-stat"><div class="num">340+</div><div class="lbl">Suppliers</div></div></div>
+    </section>
+    
+<section class="products"><h2>Suite Products</h2>
+    <div class="product-card">
+      <div class="product-top">
+        <div class="product-info">
+          <div class="tag tag-0">EXCEL TEMPLATE</div>
+          <h3>Purchase Order Log</h3>
+          <p>Complete PO register with delivery tracking</p>
+          <ul class="flist"><li>PO numbering</li><li>Vendor tracking</li><li>Delivery dates</li><li>Invoice matching</li><li>Payment status</li></ul>
+        </div>
+        <div class="product-preview">
+      <div class="mm">
+        <div class="mh">Budget vs Actual</div>
+        <div class="mr"><div class="mc">Jan</div><div class="mc g">$2.4M</div><div class="mc gn">$2.1M</div></div>
+        <div class="mr"><div class="mc">Feb</div><div class="mc g">$3.1M</div><div class="mc gn">$3.2M</div></div>
+        <div class="mr"><div class="mc">Mar</div><div class="mc g">$2.8M</div><div class="mc o">$3.5M</div></div>
+        <div class="mr"><div class="mc">Apr</div><div class="mc g">$3.2M</div><div class="mc r">At Risk</div></div>
+        <div class="mr"><div class="mc">May</div><div class="mc g">$2.9M</div><div class="mc gn">$2.7M</div></div>
+      </div></div>
+      </div>
+      <div class="product-actions">
+        <a class="bp" href="#request">Request Template</a>
+        <a class="bs" href="#demo">View Demo</a>
+      </div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-top">
+        <div class="product-info">
+          <div class="tag tag-1">INTERACTIVE DASHBOARD</div>
+          <h3>Procurement Dashboard</h3>
+          <p>Real-time procurement status and metrics</p>
+          <ul class="flist"><li>Open PO value</li><li>Delivery status</li><li>Invoice tracking</li><li>Vendor performance</li><li>Cost trending</li></ul>
+        </div>
+        <div class="product-preview">
+      <div class="mm">
+        <div class="kpis">
+          <div class="kb"><div class="v">94%</div><div class="l">Complete</div></div>
+          <div class="kb"><div class="v">2.4%</div><div class="l">Over Budget</div></div>
+          <div class="kb"><div class="v">12d</div><div class="l">Ahead</div></div>
+          <div class="kb"><div class="v">98%</div><div class="l">Quality Pass</div></div>
+        </div>
+      </div></div>
+      </div>
+      <div class="product-actions">
+        <a class="bp" href="#request">Request Template</a>
+        <a class="bs" href="#demo">View Demo</a>
+      </div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-top">
+        <div class="product-info">
+          <div class="tag tag-0">EXCEL TEMPLATE</div>
+          <h3>Material Schedule</h3>
+          <p>Critical material delivery schedule with lead times</p>
+          <ul class="flist"><li>Long-lead items</li><li>Delivery schedule</li><li>Storage plan</li><li>Cost tracking</li><li>Expediting notes</li></ul>
+        </div>
+        <div class="product-preview">
+      <div class="mm">
+        <div class="mh">Budget vs Actual</div>
+        <div class="mr"><div class="mc">Jan</div><div class="mc g">$2.4M</div><div class="mc gn">$2.1M</div></div>
+        <div class="mr"><div class="mc">Feb</div><div class="mc g">$3.1M</div><div class="mc gn">$3.2M</div></div>
+        <div class="mr"><div class="mc">Mar</div><div class="mc g">$2.8M</div><div class="mc o">$3.5M</div></div>
+        <div class="mr"><div class="mc">Apr</div><div class="mc g">$3.2M</div><div class="mc r">At Risk</div></div>
+        <div class="mr"><div class="mc">May</div><div class="mc g">$2.9M</div><div class="mc gn">$2.7M</div></div>
+      </div></div>
+      </div>
+      <div class="product-actions">
+        <a class="bp" href="#request">Request Template</a>
+        <a class="bs" href="#demo">View Demo</a>
+      </div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-top">
+        <div class="product-info">
+          <div class="tag tag-4">DIGITAL FORM</div>
+          <h3>Supplier Application</h3>
+          <p>Vendor qualification and approval form</p>
+          <ul class="flist"><li>Company details</li><li>Certifications</li><li>References</li><li>Capacity assessment</li><li>Insurance documents</li></ul>
+        </div>
+        <div class="product-preview">
+      <div class="mm">
+        <div class="mh">Change Request</div>
+        <div class="ml">
+          <div class="lt">ID: CHG-2024-142</div>
+          <div class="lt">Status: Review</div>
+          <div class="lt">Impact: $125K</div>
+          <div class="lt">Schedule: +5 days</div>
+          <div class="lt">Approval: Pending</div>
+        </div>
+      </div></div>
+      </div>
+      <div class="product-actions">
+        <a class="bp" href="#request">Request Template</a>
+        <a class="bs" href="#demo">View Demo</a>
+      </div>
+    </div>
+    </section>
+
+    <section class="demo">
+      <h2>Live Demo & KPIs</h2>
+      <div class="demo-kpis"><div class="dk"><div class="dv">94%</div><div class="dl">Progress</div></div><div class="dk"><div class="dv">$2.1M</div><div class="dl">Spent</div></div><div class="dk"><div class="dv">98.2%</div><div class="dl">Quality</div></div><div class="dk"><div class="dv">2</div><div class="dl">Issues</div></div></div>
+      <div class="chart-box">
+          <div class="bars">
+            <div class="bg"><div class="b" style="height:75%;background:linear-gradient(180deg,#C27A32,rgba(198,169,106,0.3))"></div><div class="bl">Week 1</div><div class="bv">$2.1M</div></div>
+            <div class="bg"><div class="b" style="height:85%;background:linear-gradient(180deg,#C27A32,rgba(198,169,106,0.3))"></div><div class="bl">Week 2</div><div class="bv">$2.4M</div></div>
+            <div class="bg"><div class="b" style="height:65%;background:linear-gradient(180deg,#C27A32,rgba(198,169,106,0.3))"></div><div class="bl">Week 3</div><div class="bv">$1.8M</div></div>
+            <div class="bg"><div class="b" style="height:72%;background:linear-gradient(180deg,#C27A32,rgba(198,169,106,0.3))"></div><div class="bl">Week 4</div><div class="bv">$2.0M</div></div>
+          </div>
+        </div>
+    </section>
+    
+
+    <section class="flow">
+      <h2>Data Piping</h2>
+      <div class="fc">
+        <div class="fn"><div class="fe">IMPORT</div><div class="nm">Project Data</div></div>
+        <div class="fa">→</div>
+        <div class="fn"><div class="fe">VALIDATE</div><div class="nm">Quality Check</div></div>
+        <div class="fa">→</div>
+        <div class="fh">HUB</div>
+        <div class="fa">→</div>
+        <div class="fn"><div class="fe">ANALYZE</div><div class="nm">Reports</div></div>
+        <div class="fa">→</div>
+        <div class="fn"><div class="fe">EXPORT</div><div class="nm">Dashboards</div></div>
+      </div>
+    </section>
+    
+
+    <section class="why">
+      <h2>Why This Suite</h2>
+      <div class="wg">
+        <div class="wc">
+          <h4>Industry Best Practices</h4>
+          <p>Built on 20+ years of field expertise and proven methodologies for construction delivery excellence.</p>
+        </div>
+        <div class="wc">
+          <h4>Real-Time Integration</h4>
+          <p>Seamless data connection across all project systems for unified visibility and decision-making.</p>
+        </div>
+        <div class="wc">
+          <h4>Scalable Framework</h4>
+          <p>From SMBs to mega-projects, adaptable templates and workflows scale with your organization.</p>
+        </div>
+      </div>
+    </section>
+    
+
+    
+<section style="padding:2rem;text-align:center;background:var(--dark2, #1E2A3A)">
+  <a href="procurement-dashboard.html" style="color:var(--gold, #C6A96A);font-size:0.85rem;font-weight:600;letter-spacing:1px;text-decoration:none;border:1.5px solid var(--gold, #C6A96A);padding:0.6rem 1.5rem;border-radius:25px;display:inline-block;transition:all 0.3s">VIEW LIVE PROCUREMENT DASHBOARD &rarr;</a>
+</section>
+<section class="cta">
+      <h2>Ready to Transform Your Delivery?</h2>
+      <p>Access all templates, dashboards, and tools today</p>
+      <a href="#quote" class="cb1">Request Quote</a>
+      <a href="#demo" class="cb2">Schedule Demo</a>
+    </section>
+    
+
+<section style="max-width:1000px;margin:3rem auto;padding:0 2rem">
+  <h2 style="font-size:1.3rem;font-weight:800;color:var(--white,#fff);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem">
+    <span style="color:var(--gold,#C6A96A)">📚</span> Tutorials for This Suite
+  </h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">
+    <a href="tut-proc-material-tracking.html" style="display:block;background:var(--dark2,#1E2A3A);border:1px solid rgba(198,169,106,0.12);border-radius:10px;padding:1.2rem;text-decoration:none;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(198,169,106,0.35)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(198,169,106,0.12)';this.style.transform='none'">
+      <h3 style="font-size:0.88rem;color:var(--white,#fff);margin-bottom:0.6rem;font-weight:600;line-height:1.4">Material Procurement and Delivery Tracking</h3>
+      <div style="display:flex;gap:0.8rem;font-size:0.72rem">
+        <span style="color:var(--gray,#8A9196)">⏱ 13 min</span>
+        <span style="color:#C27A32;font-weight:600">Intermediate</span>
+      </div>
+    </a>
+    <a href="tut-proc-vendor-register.html" style="display:block;background:var(--dark2,#1E2A3A);border:1px solid rgba(198,169,106,0.12);border-radius:10px;padding:1.2rem;text-decoration:none;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(198,169,106,0.35)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(198,169,106,0.12)';this.style.transform='none'">
+      <h3 style="font-size:0.88rem;color:var(--white,#fff);margin-bottom:0.6rem;font-weight:600;line-height:1.4">Building a Vendor Pre-Qualification Register</h3>
+      <div style="display:flex;gap:0.8rem;font-size:0.72rem">
+        <span style="color:var(--gray,#8A9196)">⏱ 11 min</span>
+        <span style="color:#2D8B4E;font-weight:600">Beginner</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D. Projects — Bid & Tender Management Suite</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496;--suite-color:#2A6496; --white:#FFFFFF; --gold-light:#D4BC85}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff}
+.hero .badge{display:inline-block;padding:6px 18px;border:1px solid var(--suite-color);color:var(--suite-color);border-radius:20px;font-size:0.75rem;font-weight:600;letter-spacing:1px;margin-bottom:15px}
+.hero h1{font-size:2.4rem;font-weight:800;color:var(--cream);margin-bottom:12px}
+.hero h1 span{color:var(--suite-color)}
+.hero p{color:var(--gray);font-size:1rem;max-width:700px;margin:0 auto;line-height:1.6}
+
+.products{padding:50px 30px;max-width:1100px;margin:0 auto}
+.products h2{text-align:center;color:var(--gold);font-size:1.3rem;margin-bottom:40px;letter-spacing:1px}
+.product-card{background:var(--dark2);border-radius:12px;border:1px solid rgba(42,100,150,0.2);margin-bottom:35px;overflow:hidden}
+.product-top{display:flex;gap:30px;padding:30px}
+.product-info{flex:1}
+.product-info .tag{display:inline-block;padding:4px 12px;background:rgba(42,100,150,0.15);color:var(--suite-color);border-radius:4px;font-size:0.7rem;font-weight:600;letter-spacing:0.5px;margin-bottom:10px}
+.product-info h3{font-size:1.3rem;color:var(--cream);margin-bottom:8px}
+.product-info p{color:var(--gray);font-size:0.85rem;line-height:1.6;margin-bottom:15px}
+.feature-list{list-style:none;padding:0}
+.feature-list li{color:var(--cream);font-size:0.8rem;padding:4px 0;padding-left:18px;position:relative}
+.feature-list li::before{content:"\25B8";color:var(--suite-color);position:absolute;left:0}
+.product-preview{flex:0 0 420px;background:var(--dark);border-radius:8px;padding:20px;border:1px solid rgba(255,255,255,0.05);overflow:hidden;max-height:320px}
+.mini-mockup{font-size:0.7rem;color:var(--gray)}
+.mini-mockup .mock-header{background:var(--teal);color:#fff;padding:8px 12px;border-radius:4px 4px 0 0;font-weight:600;font-size:0.75rem}
+.mini-mockup .mock-row{display:flex;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mini-mockup .mock-row:nth-child(even){background:rgba(10,54,64,0.1)}
+.mini-mockup .mock-cell{flex:1;padding:2px 4px;color:var(--cream);font-size:0.7rem}
+.mini-mockup .mock-cell.gold{color:var(--gold);font-weight:600}
+.mini-mockup .mock-cell.blue{color:#4488ff}
+.mini-mockup .mock-kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
+.mini-mockup .kpi-box{background:rgba(42,100,150,0.1);border:1px solid rgba(42,100,150,0.2);border-radius:6px;padding:10px;text-align:center}
+.mini-mockup .kpi-box .val{font-size:1.2rem;font-weight:800;color:var(--suite-color)}
+.mini-mockup .kpi-box .lbl{font-size:0.6rem;color:var(--gray);margin-top:2px}
+.product-actions{display:flex;gap:10px;padding:0 30px 20px}
+.product-actions a{padding:8px 20px;border-radius:6px;text-decoration:none;font-size:0.8rem;font-weight:600;transition:all 0.3s}
+.btn-primary{background:var(--suite-color);color:#fff}
+.btn-secondary{border:1px solid var(--suite-color);color:var(--suite-color)}
+
+.why{padding:50px 30px;max-width:1100px;margin:0 auto}
+.why h2{text-align:center;color:var(--gold);font-size:1.3rem;margin-bottom:30px}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.why-card{background:var(--dark2);border-radius:10px;padding:25px;border-left:3px solid var(--suite-color)}
+.why-card h4{color:var(--suite-color);font-size:0.95rem;margin-bottom:8px}
+.why-card p{color:var(--gray);font-size:0.8rem;line-height:1.5}
+
+.cta{text-align:center;padding:50px 30px;background:linear-gradient(135deg,var(--teal),var(--dark))}
+.cta h2{color:var(--gold);font-size:1.5rem;margin-bottom:10px}
+.cta p{color:var(--cream);font-size:0.9rem;margin-bottom:20px}
+.cta a{display:inline-block;padding:14px 35px;background:var(--suite-color);color:#fff;border-radius:6px;text-decoration:none;font-weight:700}
+
+@media(max-width:900px){
+  
+        
+        
+  .product-top{flex-direction:column}
+  .product-preview{flex:auto}
+  .why-grid{grid-template-columns:1fr}
+  .hero h1{font-size:1.6rem}
+}
+   @media(max-width:414px){
+     .hero{padding:4rem 1.2rem 2.5rem}
+     .hero h1{font-size:1.8rem}
+     .hero p{font-size:0.82rem}
+     section{padding:2.5rem 1.2rem}
+   }
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAkACoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD8/K0dA8P3/ifVItP02Dz7mTnBYKqjIGWJ4A5FX/CvgLXPGf2htKsjLBbjdNcSOI4oh7sf6Zr0vw0viX4DajcQ3mix3MUrrP8Abh58cMoCERtHcKMFQzEjj7ymvUxWMjQi1Bpz7GWDwVTF1FFLT1S+69rndaN+wbqesaGl0vxB8OLfllDWiqxRAW2sxlLLuC8n5VOcHGeK8X+L3wR8VfBLW47DxHbQtDPuNrqNjKJrW5AODtcYww7qwDD0xzX1p4H/AGtbTWYZfDcXhuJLnUrUWcEtz4nt4beHZAwLPJKAFGdzc46gda5v4j/FvXf2lPCmreD9J8I2nmyzxSwi3S41O5edXRS0ckUaxQj5WYu5xtLAcmvncNmeMVVOvZwb8tPu7eh9BWySS5qcYuM4q+rtp/280tfJnxlRivXfid+yp8SfhRps2q6roa32hwk79W0iYXNugBwWfGHQZ4yyge9eRV9dSrU68eelJNeR8lOnOm+WaszvPAXjvxV4UsXm0qxmv9MtHaRm+zStHbMQCzebHgpnAJDHHfHevVPBP7S2tWVndXlr4c1K7S2jaS6u7SIzRCQjiSZoxGFUDOA3ABOOlc78EvjfpHw08MWlpfTa/HdWPiRNfW20gosOoItt5X2WdmcYRj975X+XPGavfC79pO0+C/gjxLZ+HdOnvde1PVrTVbV7xmgs7VhZ3MMytHFKPORWuMJHJlGVcuAQBXmVcJSxE5e0pfPudkK06UY8k/l2PVPD37anh+YC3ufC5vL2WYLCsWhpcSsNqqqgG5BLEgnGDy3eq95+3RpcVs1t/Y+sajCwmhuLC6hs4bWSMk7FMeHI4wGBJ6mqPgn44/BjU/Hlqlx4L03wzYDWkktbp9Lt7eO3tFe1eGaWeNjLG8Ahu8pGG883ChiMDHOa98bPg3qOmtBpfgFNDvzpT2sOptoltfvbXBMG9mjmlCXAkEc+JHUSR+ecZ6DnWVYW+sH95p9drW0kih49/bY8Y+K9D1bSNKsbHw/barbmyvL2MedeT2oDKkO/CoiqjFfkRSQTk5Oa+eBwABwBX0J8XPjf4A+I/hPxF5Xh17fxPqJ0+S0u4tGtLZrYxQW8UsUkyuxeL91KV2JGxMgDEqNo+eq9bD0KdCPLThynFVqTqO85XCiiiuoxF6UlFFABRRRQB//Z" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div>
+<div class="hero">
+  <div class="badge">SUITE 2 — BID & TENDER</div>
+  <h1>Bid & <span>Tender Management</span></h1>
+  <p>Professional BOQ templates, tender evaluation matrices, bid comparison dashboards, and contractor prequalification forms — everything you need to run a fair, transparent, and efficient procurement process.</p>
+</div>
+
+<div class="products">
+  <h2>SUITE PRODUCTS</h2>
+
+  <!-- Product 1: BOQ -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">BILL OF QUANTITIES</div>
+        <h3>BOQ Template</h3>
+        <p>Professional 3-sheet Bill of Quantities with 43 line items across 6 CSI-style sections (Substructure, Superstructure, Envelope, Finishes, MEP, External). Blue input cells for quantities and rates, auto-calculated amounts, section subtotals, contingency, and grand total. Includes section cost breakdown analysis and notes/exclusions sheet.</p>
+        <ul class="feature-list">
+          <li>43 line items across 6 major sections</li>
+          <li>Auto-calculated amounts (Qty x Rate)</li>
+          <li>Section subtotals with cost/sqm analysis</li>
+          <li>10% contingency auto-calculated</li>
+          <li>Notes, assumptions & exclusions sheet</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">BOQ Summary — Grand Total</div>
+          <div class="mock-row" style="background:rgba(198,169,106,0.1)"><div class="mock-cell gold">A. Substructure</div><div class="mock-cell gold">USD 17.7M</div></div>
+          <div class="mock-row"><div class="mock-cell">B. Superstructure</div><div class="mock-cell">USD 182.3M</div></div>
+          <div class="mock-row" style="background:rgba(198,169,106,0.1)"><div class="mock-cell gold">C. Ext. Envelope</div><div class="mock-cell gold">USD 33.6M</div></div>
+          <div class="mock-row"><div class="mock-cell">D. Int. Finishes</div><div class="mock-cell">USD 49.2M</div></div>
+          <div class="mock-row" style="background:rgba(198,169,106,0.1)"><div class="mock-cell gold">E. MEP Works</div><div class="mock-cell gold">USD 65.8M</div></div>
+          <div class="mock-row"><div class="mock-cell">F. External Works</div><div class="mock-cell">USD 15.4M</div></div>
+          <div class="mock-row" style="background:var(--teal)"><div class="mock-cell" style="color:#fff;font-weight:700">GRAND TOTAL</div><div class="mock-cell" style="color:var(--gold);font-weight:800">USD 364M</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="product-actions">
+      <a href="rfq.html" class="btn-primary">Request This Template</a>
+    </div>
+  </div>
+
+  <!-- Product 2: Tender Evaluation -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">EVALUATION MATRIX</div>
+        <h3>Tender Evaluation Matrix</h3>
+        <p>Comprehensive 3-sheet evaluation workbook: Technical Evaluation (10 weighted criteria, 1-10 scoring, pass/fail threshold), Commercial Evaluation (section-by-section price comparison with variance analysis), and Final Ranking (60/40 weighted combined score with automatic rank and recommendation).</p>
+        <ul class="feature-list">
+          <li>10 technical criteria with customisable weights</li>
+          <li>1-10 scoring with auto-weighted calculations</li>
+          <li>Commercial score: lowest bid indexed to 100</li>
+          <li>Configurable technical/commercial weight split</li>
+          <li>Auto RANK and PASS/FAIL with conditional formatting</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">Final Ranking — Combined Score</div>
+          <div class="mock-kpi">
+            <div class="kpi-box"><div class="val">86.6</div><div class="lbl">Company B (Rank 1)</div></div>
+            <div class="kpi-box"><div class="val">84.5</div><div class="lbl">Company C (Rank 2)</div></div>
+          </div>
+          <div class="mock-row"><div class="mock-cell">Tech Weight</div><div class="mock-cell blue">60%</div></div>
+          <div class="mock-row"><div class="mock-cell">Comm Weight</div><div class="mock-cell blue">40%</div></div>
+          <div class="mock-row"><div class="mock-cell">Min. Tech Score</div><div class="mock-cell blue">65</div></div>
+          <div style="padding:8px 12px;text-align:center;font-size:0.65rem;color:var(--green);font-weight:600">All 4 bidders: PASS</div>
+        </div>
+      </div>
+    </div>
+    <div class="product-actions">
+      <a href="rfq.html" class="btn-primary">Request This Template</a>
+    </div>
+  </div>
+
+  <!-- Product 3: Bid Dashboard -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">INTERACTIVE DASHBOARD</div>
+        <h3>Bid Comparison Dashboard</h3>
+        <p>Visual bid comparison dashboard with Chart.js. Features bidder ranking cards with combined scores, section-by-section price breakdown bar chart, technical vs commercial bubble scatter plot, radar chart for technical criteria comparison, and a recommendation panel with the winning bidder highlighted.</p>
+        <ul class="feature-list">
+          <li>4 bidder cards with rank, price, and scores</li>
+          <li>Price breakdown by section (grouped bar chart)</li>
+          <li>Technical vs Commercial scatter (bubble chart)</li>
+          <li>10-criteria radar chart comparison</li>
+          <li>Winner recommendation panel</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">Bid Comparison — 4 Bidders</div>
+          <div class="mock-kpi">
+            <div class="kpi-box" style="border-color:var(--green)"><div class="val" style="color:var(--green)">Company B</div><div class="lbl">Recommended</div></div>
+            <div class="kpi-box"><div class="val">USD 749M</div><div class="lbl">Lowest Qualified</div></div>
+          </div>
+          <div style="padding:8px 12px;font-size:0.65rem;color:var(--gray);text-align:center">4 chart types: Bar, Bubble, Radar, Table</div>
+        </div>
+      </div>
+    </div>
+    <div class="product-actions">
+      <a href="bt-bid-dashboard.html" class="btn-primary">View Live Demo</a>
+      <a href="rfq.html" class="btn-secondary">Request Custom Version</a>
+    </div>
+  </div>
+
+  <!-- Product 4: Prequalification -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">DIGITAL FORM</div>
+        <h3>Contractor Prequalification Form</h3>
+        <p>5-step multi-page prequalification form for screening contractors before tender invitation. Collects company info, experience & references, resources & financial capacity, certifications & compliance, and required documents checklist. Built with progress indicator, field validation, and Formspree email integration.</p>
+        <ul class="feature-list">
+          <li>5-step wizard with progress indicator</li>
+          <li>Company info, experience, capacity, compliance, docs</li>
+          <li>Sector experience & equipment checklists</li>
+          <li>10-item document requirements checklist</li>
+          <li>Formspree email integration with demo mode</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">Prequalification — 5 Steps</div>
+          <div class="mock-row"><div class="mock-cell" style="color:var(--suite-color);font-weight:600">Step 1</div><div class="mock-cell">Company Information</div></div>
+          <div class="mock-row"><div class="mock-cell" style="color:var(--suite-color);font-weight:600">Step 2</div><div class="mock-cell">Experience & Track Record</div></div>
+          <div class="mock-row"><div class="mock-cell" style="color:var(--suite-color);font-weight:600">Step 3</div><div class="mock-cell">Resources & Financial</div></div>
+          <div class="mock-row"><div class="mock-cell" style="color:var(--suite-color);font-weight:600">Step 4</div><div class="mock-cell">Certifications & Compliance</div></div>
+          <div class="mock-row"><div class="mock-cell" style="color:var(--suite-color);font-weight:600">Step 5</div><div class="mock-cell">Required Documents</div></div>
+          <div style="padding:8px 12px;text-align:center;font-size:0.65rem;color:var(--gray)">8 sectors, 6 equipment types, 10 document items</div>
+        </div>
+      </div>
+    </div>
+    <div class="product-actions">
+      <a href="bt-prequalification.html" class="btn-primary">View Live Demo</a>
+      <a href="rfq.html" class="btn-secondary">Request Custom Version</a>
+    </div>
+  </div>
+</div>
+
+<div class="why">
+  <h2>WHY CHOOSE OUR BID & TENDER SUITE</h2>
+  <div class="why-grid">
+    <div class="why-card">
+      <h4>Transparent Procurement</h4>
+      <p>Standardised evaluation criteria with weighted scoring ensures every bidder is assessed fairly. Audit-ready documentation from day one.</p>
+    </div>
+    <div class="why-card">
+      <h4>Time-Saving Templates</h4>
+      <p>Pre-built BOQ structures with 43 line items, ready-to-use evaluation matrices, and digital prequalification forms cut your procurement cycle in half.</p>
+    </div>
+    <div class="why-card">
+      <h4>Data-Driven Decisions</h4>
+      <p>Interactive dashboards visualise bid comparisons instantly. No more manual spreadsheet analysis — see your winner at a glance.</p>
+    </div>
+  </div>
+</div>
+
+<div class="cta">
+  <h2>Ready to Streamline Your Procurement?</h2>
+  <p>Get a customised bid & tender package tailored to your project scope and contractor pool.</p>
+  <a href="rfq.html">Request a Quote</a>
+</div>
+
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

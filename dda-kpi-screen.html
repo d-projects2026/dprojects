@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D. Projects - Executive KPI Screen | Al Maadi Heights</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark: #1A2332;
+            --dark2: #1E2A3A;
+            --teal: #0A3640;
+            --gold: #C6A96A;
+            --gray: #8A9196;
+            --cream: #F5F3EE;
+            --white: #FFFFFF;
+            --red: #B23026;
+            --green: #2D8B4E;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: var(--cream);
+            overflow: auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--dark2) 0%, var(--teal) 100%);
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .header-left p {
+            font-size: 16px;
+            color: var(--gold);
+            margin-top: 4px;
+        }
+
+        .header-center {
+            text-align: center;
+            flex: 1;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--dark);
+            padding: 8px 20px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .datetime {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .date-label {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* PRIMARY KPIs */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 30px 40px;
+            background-color: var(--dark);
+        }
+
+        .kpi-card {
+            background-color: var(--dark2);
+            border: 1px solid var(--teal);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .kpi-card.warning {
+            animation: pulse-warning 2s infinite;
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(182, 48, 38, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(182, 48, 38, 0);
+            }
+        }
+
+        .kpi-card.alert {
+            animation: pulse-alert 2s infinite;
+        }
+
+        @keyframes pulse-alert {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(198, 169, 106, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(198, 169, 106, 0);
+            }
+        }
+
+        .kpi-label {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .kpi-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .indicator-dot.green {
+            background-color: var(--green);
+        }
+
+        .indicator-dot.amber {
+            background-color: #F5A623;
+        }
+
+        .indicator-dot.gold {
+            background-color: var(--gold);
+        }
+
+        .kpi-subtext {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 12px;
+        }
+
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 12px;
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            fill: none;
+            stroke: var(--teal);
+            stroke-width: 3;
+            stroke-dasharray: 226;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 0 40px;
+        }
+
+        .section {
+            background-color: var(--dark2);
+            border: 1px solid var(--teal);
+            border-radius: 12px;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* BUDGET BREAKDOWN */
+        .budget-bar-container {
+            margin-bottom: 24px;
+        }
+
+        .budget-labels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        .budget-labels div {
+            font-weight: 600;
+        }
+
+        .budget-bar {
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            background-color: var(--dark);
+        }
+
+        .budget-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--white);
+            transition: flex 0.3s ease;
+        }
+
+        .segment-original {
+            background-color: var(--teal);
+            flex: 1;
+        }
+
+        .segment-revised {
+            background-color: #1B5E6F;
+            flex: 1.017;
+        }
+
+        .segment-committed {
+            background-color: #0A6B44;
+            flex: 0.972;
+        }
+
+        .segment-spent {
+            background-color: var(--gold);
+            flex: 0.711;
+        }
+
+        .budget-table {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .budget-table-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 0.8fr;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--teal);
+            align-items: center;
+        }
+
+        .budget-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .budget-table-row.header {
+            font-weight: 700;
+            color: var(--gold);
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+        }
+
+        .budget-package-name {
+            color: var(--cream);
+            font-weight: 600;
+        }
+
+        .budget-value {
+            text-align: right;
+            color: var(--gray);
+        }
+
+        .budget-rag {
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .rag-green {
+            color: var(--green);
+        }
+
+        .rag-amber {
+            color: #F5A623;
+        }
+
+        .rag-red {
+            color: var(--red);
+        }
+
+        /* SCHEDULE TIMELINE */
+        .schedule-phase {
+            margin-bottom: 20px;
+        }
+
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .phase-name {
+            font-weight: 600;
+            color: var(--cream);
+            font-size: 14px;
+        }
+
+        .phase-percent {
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 14px;
+        }
+
+        .phase-bar-container {
+            background-color: var(--dark);
+            border-radius: 6px;
+            height: 24px;
+            overflow: hidden;
+        }
+
+        .phase-bar {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .phase-bar.complete {
+            background-color: var(--green);
+        }
+
+        .phase-bar.in-progress {
+            background-color: var(--gold);
+        }
+
+        .phase-bar.planned {
+            background-color: var(--gray);
+        }
+
+        .milestones {
+            margin-top: 16px;
+            font-size: 12px;
+        }
+
+        .milestone {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: var(--dark);
+            border-radius: 6px;
+        }
+
+        .milestone-name {
+            color: var(--cream);
+            font-weight: 600;
+        }
+
+        .milestone-date {
+            color: var(--gray);
+        }
+
+        /* RISK RADAR */
+        .risk-heatmap {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            background-color: var(--dark);
+            border: 1px solid var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.1);
+        }
+
+        .heatmap-cell.low {
+            background-color: #1B5E6F;
+            color: var(--cream);
+        }
+
+        .heatmap-cell.medium {
+            background-color: #0A6B44;
+            color: var(--cream);
+        }
+
+        .heatmap-cell.high {
+            background-color: #F5A623;
+            color: var(--dark);
+        }
+
+        .heatmap-cell.critical {
+            background-color: var(--red);
+            color: var(--white);
+        }
+
+        .risk-list {
+            font-size: 12px;
+        }
+
+        .risk-item {
+            padding: 12px;
+            background-color: var(--dark);
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--teal);
+        }
+
+        .risk-item.high {
+            border-left-color: var(--red);
+        }
+
+        .risk-item.medium {
+            border-left-color: #F5A623;
+        }
+
+        .risk-id {
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .risk-description {
+            color: var(--cream);
+            margin: 6px 0;
+            font-weight: 500;
+        }
+
+        .risk-score {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--gray);
+        }
+
+        /* TREND SPARKLINES */
+        .sparkline-container {
+            margin-bottom: 20px;
+        }
+
+        .sparkline-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .sparkline-chart {
+            position: relative;
+            height: 60px;
+            background-color: var(--dark);
+            border-radius: 6px;
+            padding: 8px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--dark2);
+            padding: 16px 40px;
+            border-top: 2px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .footer-left {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-tagline {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* SCROLLBAR STYLING */
+        .section::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .section::-webkit-scrollbar-track {
+            background: var(--dark);
+            border-radius: 6px;
+        }
+
+        .section::-webkit-scrollbar-thumb {
+            background: var(--teal);
+            border-radius: 6px;
+        }
+
+        .section::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <h1>Al Maadi Heights</h1>
+            <p>D. Projects</p>
+        </div>
+        <div class="header-center">
+            <div class="phase-badge">Construction Phase 2</div>
+        </div>
+        <div class="header-right">
+            <div class="datetime" id="current-time">00:00:00</div>
+            <div class="date-label" id="current-date">Loading...</div>
+        </div>
+    </div>
+
+    <!-- PRIMARY KPIs -->
+    <div class="kpi-row">
+        <!-- Budget KPI -->
+        <div class="kpi-card">
+            <div class="kpi-label">Budget</div>
+            <div class="kpi-value">180M</div>
+            <div class="kpi-indicator">
+                <span class="indicator-dot green"></span>
+                <span>Under Budget</span>
+            </div>
+            <div class="kpi-subtext">Variance: -3.2M USD</div>
+        </div>
+
+        <!-- Schedule KPI -->
+        <div class="kpi-card">
+            <div class="kpi-label">Schedule</div>
+            <svg class="progress-ring" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="36" class="progress-ring-circle" style="stroke-dashoffset: 0;"></circle>
+                <circle cx="50" cy="50" r="36" fill="none" stroke="var(--gray)" stroke-width="1" opacity="0.2"></circle>
+            </svg>
+            <div class="kpi-value" style="font-size: 48px;">72%</div>
+            <div class="kpi-subtext">On Track</div>
+        </div>
+
+        <!-- Risk KPI -->
+        <div class="kpi-card alert">
+            <div class="kpi-label">Risk</div>
+            <div class="kpi-value">3</div>
+            <div class="kpi-indicator">
+                <span class="indicator-dot amber"></span>
+                <span>Open</span>
+            </div>
+            <div class="kpi-subtext">1 Escalated</div>
+        </div>
+
+        <!-- Changes KPI -->
+        <div class="kpi-card">
+            <div class="kpi-label">Changes</div>
+            <div class="kpi-value">2</div>
+            <div class="kpi-indicator">
+                <span class="indicator-dot gold"></span>
+                <span>Pending</span>
+            </div>
+            <div class="kpi-subtext">Net: +1.2M USD</div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT (2-col grid: each section is a direct child) -->
+    <div class="main-content">
+
+        <!-- ROW 1 LEFT: Budget Breakdown -->
+        <div class="section">
+            <div class="section-title">Budget Breakdown</div>
+            <div class="budget-bar-container">
+                <div class="budget-labels">
+                    <div>Original</div>
+                    <div>Revised</div>
+                    <div>Committed</div>
+                    <div>Spent</div>
+                </div>
+                <div class="budget-bar">
+                    <div class="budget-segment segment-original" style="flex: 1;">180M</div>
+                    <div class="budget-segment segment-revised" style="flex: 1.017;">183M</div>
+                    <div class="budget-segment segment-committed" style="flex: 0.972;">175M</div>
+                    <div class="budget-segment segment-spent" style="flex: 0.711;">128M</div>
+                </div>
+            </div>
+            <div class="budget-table">
+                <div class="budget-table-row header">
+                    <div>Work Package</div>
+                    <div>Budget</div>
+                    <div>Committed</div>
+                    <div>RAG</div>
+                </div>
+                <div class="budget-table-row">
+                    <div class="budget-package-name">Foundations</div>
+                    <div class="budget-value">32M</div>
+                    <div class="budget-value">31.5M</div>
+                    <div class="budget-rag rag-green">●</div>
+                </div>
+                <div class="budget-table-row">
+                    <div class="budget-package-name">Structure</div>
+                    <div class="budget-value">64M</div>
+                    <div class="budget-value">62.8M</div>
+                    <div class="budget-rag rag-green">●</div>
+                </div>
+                <div class="budget-table-row">
+                    <div class="budget-package-name">MEP</div>
+                    <div class="budget-value">48M</div>
+                    <div class="budget-value">47.2M</div>
+                    <div class="budget-rag rag-amber">●</div>
+                </div>
+                <div class="budget-table-row">
+                    <div class="budget-package-name">Finishes</div>
+                    <div class="budget-value">22M</div>
+                    <div class="budget-value">21.5M</div>
+                    <div class="budget-rag rag-green">●</div>
+                </div>
+                <div class="budget-table-row">
+                    <div class="budget-package-name">FF&E</div>
+                    <div class="budget-value">10M</div>
+                    <div class="budget-value">8.2M</div>
+                    <div class="budget-rag rag-green">●</div>
+                </div>
+                <div class="budget-table-row">
+                    <div class="budget-package-name">Contingency</div>
+                    <div class="budget-value">4M</div>
+                    <div class="budget-value">3.8M</div>
+                    <div class="budget-rag rag-green">●</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 1 RIGHT: Schedule Timeline -->
+        <div class="section">
+            <div class="section-title">Schedule Timeline</div>
+            <div class="schedule-phase">
+                <div class="phase-header">
+                    <div class="phase-name">Phase 1: Foundations</div>
+                    <div class="phase-percent">100%</div>
+                </div>
+                <div class="phase-bar-container">
+                    <div class="phase-bar complete" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="schedule-phase">
+                <div class="phase-header">
+                    <div class="phase-name">Phase 2: Structure</div>
+                    <div class="phase-percent">85%</div>
+                </div>
+                <div class="phase-bar-container">
+                    <div class="phase-bar in-progress" style="width: 85%;"></div>
+                </div>
+            </div>
+            <div class="schedule-phase">
+                <div class="phase-header">
+                    <div class="phase-name">Phase 3: MEP</div>
+                    <div class="phase-percent">40%</div>
+                </div>
+                <div class="phase-bar-container">
+                    <div class="phase-bar in-progress" style="width: 40%;"></div>
+                </div>
+            </div>
+            <div class="schedule-phase">
+                <div class="phase-header">
+                    <div class="phase-name">Phase 4: Fit-Out</div>
+                    <div class="phase-percent">5%</div>
+                </div>
+                <div class="phase-bar-container">
+                    <div class="phase-bar planned" style="width: 5%;"></div>
+                </div>
+            </div>
+            <div class="milestones">
+                <div class="milestone">
+                    <span class="milestone-name">Foundation Complete</span>
+                    <span class="milestone-date">Mar 2024</span>
+                </div>
+                <div class="milestone">
+                    <span class="milestone-name">Structure Complete</span>
+                    <span class="milestone-date">Sep 2024</span>
+                </div>
+                <div class="milestone">
+                    <span class="milestone-name">MEP Complete</span>
+                    <span class="milestone-date">Mar 2025</span>
+                </div>
+                <div class="milestone">
+                    <span class="milestone-name">Handover</span>
+                    <span class="milestone-date">Q4 2025</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 2 LEFT: Risk Matrix -->
+        <div class="section">
+            <div class="section-title">Probability × Impact Matrix</div>
+            <div style="display:grid; grid-template-columns: auto repeat(5,1fr); gap:3px; font-size:11px; text-align:center;">
+                <div style="color:var(--gray);font-weight:600;padding:6px 4px;"></div>
+                <div style="color:var(--gray);font-weight:600;padding:6px 4px;">Negligible</div>
+                <div style="color:var(--gray);font-weight:600;padding:6px 4px;">Minor</div>
+                <div style="color:var(--gray);font-weight:600;padding:6px 4px;">Moderate</div>
+                <div style="color:var(--gray);font-weight:600;padding:6px 4px;">Major</div>
+                <div style="color:var(--gray);font-weight:600;padding:6px 4px;">Critical</div>
+                <!-- Row 5: Almost Certain -->
+                <div style="color:var(--gray);font-weight:600;padding:8px 4px;text-align:right;white-space:nowrap;">Almost Certain</div>
+                <div class="heatmap-cell medium">5</div>
+                <div class="heatmap-cell high">10</div>
+                <div class="heatmap-cell critical">15</div>
+                <div class="heatmap-cell critical">20</div>
+                <div class="heatmap-cell critical" style="position:relative;">25<span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;" title="R-003"></span></div>
+                <!-- Row 4: Likely -->
+                <div style="color:var(--gray);font-weight:600;padding:8px 4px;text-align:right;">Likely</div>
+                <div class="heatmap-cell low">4</div>
+                <div class="heatmap-cell medium">8</div>
+                <div class="heatmap-cell high">12</div>
+                <div class="heatmap-cell critical" style="position:relative;">16<span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;" title="R-001"></span></div>
+                <div class="heatmap-cell critical">20</div>
+                <!-- Row 3: Possible -->
+                <div style="color:var(--gray);font-weight:600;padding:8px 4px;text-align:right;">Possible</div>
+                <div class="heatmap-cell low">3</div>
+                <div class="heatmap-cell medium">6</div>
+                <div class="heatmap-cell high" style="position:relative;">9<span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;" title="R-004"></span></div>
+                <div class="heatmap-cell high">12</div>
+                <div class="heatmap-cell critical">15</div>
+                <!-- Row 2: Unlikely -->
+                <div style="color:var(--gray);font-weight:600;padding:8px 4px;text-align:right;">Unlikely</div>
+                <div class="heatmap-cell low">2</div>
+                <div class="heatmap-cell low">4</div>
+                <div class="heatmap-cell medium" style="position:relative;">6<span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;" title="R-002"></span></div>
+                <div class="heatmap-cell high">8</div>
+                <div class="heatmap-cell high">10</div>
+                <!-- Row 1: Rare -->
+                <div style="color:var(--gray);font-weight:600;padding:8px 4px;text-align:right;">Rare</div>
+                <div class="heatmap-cell low">1</div>
+                <div class="heatmap-cell low">2</div>
+                <div class="heatmap-cell low">3</div>
+                <div class="heatmap-cell medium" style="position:relative;">4<span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--gold);border-radius:50%;" title="R-005"></span></div>
+                <div class="heatmap-cell medium">5</div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:var(--gray);">
+                <span><span style="display:inline-block;width:10px;height:10px;background:#1B5E6F;border-radius:2px;vertical-align:middle;margin-right:3px;"></span>Low (1-4)</span>
+                <span><span style="display:inline-block;width:10px;height:10px;background:#0A6B44;border-radius:2px;vertical-align:middle;margin-right:3px;"></span>Medium (5-8)</span>
+                <span><span style="display:inline-block;width:10px;height:10px;background:#F5A623;border-radius:2px;vertical-align:middle;margin-right:3px;"></span>High (9-14)</span>
+                <span><span style="display:inline-block;width:10px;height:10px;background:var(--red);border-radius:2px;vertical-align:middle;margin-right:3px;"></span>Critical (15-25)</span>
+                <span><span style="display:inline-block;width:8px;height:8px;background:var(--gold);border-radius:50%;vertical-align:middle;margin-right:3px;"></span>Active Risk</span>
+            </div>
+            <!-- Risk summary stats -->
+            <div style="margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:11px;">
+                <div style="background:var(--dark);border-radius:6px;padding:10px;text-align:center;">
+                    <div style="color:var(--red);font-size:20px;font-weight:800;">2</div>
+                    <div style="color:var(--gray);font-weight:600;">Critical</div>
+                </div>
+                <div style="background:var(--dark);border-radius:6px;padding:10px;text-align:center;">
+                    <div style="color:#F5A623;font-size:20px;font-weight:800;">1</div>
+                    <div style="color:var(--gray);font-weight:600;">High</div>
+                </div>
+                <div style="background:var(--dark);border-radius:6px;padding:10px;text-align:center;">
+                    <div style="color:#0A6B44;font-size:20px;font-weight:800;">1</div>
+                    <div style="color:var(--gray);font-weight:600;">Medium</div>
+                </div>
+                <div style="background:var(--dark);border-radius:6px;padding:10px;text-align:center;">
+                    <div style="color:#1B5E6F;font-size:20px;font-weight:800;">1</div>
+                    <div style="color:var(--gray);font-weight:600;">Low</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 2 RIGHT: 6-Month Trends -->
+        <div class="section">
+            <div class="section-title">6-Month Trends</div>
+            <div class="sparkline-container">
+                <div class="sparkline-label">Budget Variance (USD)</div>
+                <div class="sparkline-chart"><canvas id="variance-trend"></canvas></div>
+            </div>
+            <div class="sparkline-container">
+                <div class="sparkline-label">Schedule Performance Index</div>
+                <div class="sparkline-chart"><canvas id="spi-trend"></canvas></div>
+            </div>
+            <div class="sparkline-container">
+                <div class="sparkline-label">Risk Count (Last 6M)</div>
+                <div class="sparkline-chart"><canvas id="risk-trend"></canvas></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM SECTION: Risk Register (full width) -->
+    <div class="section" style="margin: 0 40px 20px 40px;">
+        <div class="section-title">Risk Register</div>
+
+        <!-- Register table header -->
+        <div style="display:grid; grid-template-columns: 0.5fr 2fr 0.8fr 0.6fr 1fr 2fr; gap:8px; padding:10px 12px; font-size:11px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; border-bottom:2px solid var(--teal); margin-bottom:8px;">
+            <div>ID</div>
+            <div>Description</div>
+            <div>Severity</div>
+            <div>Score</div>
+            <div>Owner</div>
+            <div>Mitigation Strategy</div>
+        </div>
+
+        <!-- R-003 -->
+        <div style="display:grid; grid-template-columns: 0.5fr 2fr 0.8fr 0.6fr 1fr 2fr; gap:8px; padding:12px; font-size:12px; background:var(--dark); border-radius:6px; margin-bottom:6px; border-left:3px solid var(--red); align-items:center;">
+            <div style="color:var(--gold);font-weight:700;">R-003</div>
+            <div style="color:var(--cream);font-weight:500;">Supply chain disruption for structural steel</div>
+            <div><span style="background:var(--red);color:var(--white);padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;">CRITICAL</span></div>
+            <div style="color:var(--white);font-weight:700;">8.5</div>
+            <div style="color:var(--gray);">Procurement</div>
+            <div style="color:var(--gray);font-size:11px;">Dual-source suppliers; maintain 4-week steel buffer stock; pre-qualify 3 alternative vendors</div>
+        </div>
+
+        <!-- R-001 -->
+        <div style="display:grid; grid-template-columns: 0.5fr 2fr 0.8fr 0.6fr 1fr 2fr; gap:8px; padding:12px; font-size:12px; background:var(--dark); border-radius:6px; margin-bottom:6px; border-left:3px solid var(--red); align-items:center;">
+            <div style="color:var(--gold);font-weight:700;">R-001</div>
+            <div style="color:var(--cream);font-weight:500;">Design change requests from stakeholders</div>
+            <div><span style="background:var(--red);color:var(--white);padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;">CRITICAL</span></div>
+            <div style="color:var(--white);font-weight:700;">7.2</div>
+            <div style="color:var(--gray);">Design Lead</div>
+            <div style="color:var(--gray);font-size:11px;">Freeze design scope at Phase 2; mandatory change-order board review for all requests &gt;50K</div>
+        </div>
+
+        <!-- R-004 -->
+        <div style="display:grid; grid-template-columns: 0.5fr 2fr 0.8fr 0.6fr 1fr 2fr; gap:8px; padding:12px; font-size:12px; background:var(--dark); border-radius:6px; margin-bottom:6px; border-left:3px solid #F5A623; align-items:center;">
+            <div style="color:var(--gold);font-weight:700;">R-004</div>
+            <div style="color:var(--cream);font-weight:500;">Labor availability during MEP phase</div>
+            <div><span style="background:#F5A623;color:var(--dark);padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;">HIGH</span></div>
+            <div style="color:var(--white);font-weight:700;">6.1</div>
+            <div style="color:var(--gray);">HR Manager</div>
+            <div style="color:var(--gray);font-size:11px;">Pre-hire MEP crews 60 days ahead; partner with 2 staffing agencies; offer retention bonuses</div>
+        </div>
+
+        <!-- R-006 -->
+        <div style="display:grid; grid-template-columns: 0.5fr 2fr 0.8fr 0.6fr 1fr 2fr; gap:8px; padding:12px; font-size:12px; background:var(--dark); border-radius:6px; margin-bottom:6px; border-left:3px solid #F5A623; align-items:center;">
+            <div style="color:var(--gold);font-weight:700;">R-006</div>
+            <div style="color:var(--cream);font-weight:500;">Regulatory compliance delays on fire safety systems</div>
+            <div><span style="background:#F5A623;color:var(--dark);padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;">HIGH</span></div>
+            <div style="color:var(--white);font-weight:700;">5.8</div>
+            <div style="color:var(--gray);">QA/QC Lead</div>
+            <div style="color:var(--gray);font-size:11px;">Submit fire safety docs 90 days early; engage approved third-party inspector for pre-review</div>
+        </div>
+
+        <!-- R-002 -->
+        <div style="display:grid; grid-template-columns: 0.5fr 2fr 0.8fr 0.6fr 1fr 2fr; gap:8px; padding:12px; font-size:12px; background:var(--dark); border-radius:6px; margin-bottom:6px; border-left:3px solid #0A6B44; align-items:center;">
+            <div style="color:var(--gold);font-weight:700;">R-002</div>
+            <div style="color:var(--cream);font-weight:500;">Weather delays during concrete pours</div>
+            <div><span style="background:#0A6B44;color:var(--cream);padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;">MEDIUM</span></div>
+            <div style="color:var(--white);font-weight:700;">4.0</div>
+            <div style="color:var(--gray);">Site Supervisor</div>
+            <div style="color:var(--gray);font-size:11px;">7-day weather monitoring; build 5-day float into concrete schedule; night-shift contingency</div>
+        </div>
+
+        <!-- R-005 -->
+        <div style="display:grid; grid-template-columns: 0.5fr 2fr 0.8fr 0.6fr 1fr 2fr; gap:8px; padding:12px; font-size:12px; background:var(--dark); border-radius:6px; margin-bottom:6px; border-left:3px solid #1B5E6F; align-items:center;">
+            <div style="color:var(--gold);font-weight:700;">R-005</div>
+            <div style="color:var(--cream);font-weight:500;">Permit and approval delays from municipality</div>
+            <div><span style="background:#1B5E6F;color:var(--cream);padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;">LOW</span></div>
+            <div style="color:var(--white);font-weight:700;">3.2</div>
+            <div style="color:var(--gray);">Project Manager</div>
+            <div style="color:var(--gray);font-size:11px;">Submit permits 120 days in advance; assign dedicated liaison for municipality follow-ups</div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-left">
+            <span>Auto-refreshes every 30 seconds</span>
+            <span>Last Update: <span id="last-update">--:--:--</span></span>
+        </div>
+        <div class="footer-tagline">D. Projects — Real Estate Consultancy</div>
+    </div>
+
+    <script>
+        // Update date/time every second
+        function updateDateTime() {
+            const now = new Date();
+
+            // Format time HH:MM:SS
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+
+            // Format date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-US', options);
+            document.getElementById('current-date').textContent = dateStr;
+
+            // Last update
+            document.getElementById('last-update').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Initial call and then every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Initialize Schedule Progress Ring
+        function updateProgressRing() {
+            const circle = document.querySelector('.progress-ring-circle');
+            const percent = 72;
+            const circumference = 2 * Math.PI * 36;
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        updateProgressRing();
+
+        // Chart.js Configuration
+        const chartConfig = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    display: false
+                },
+                y: {
+                    display: false,
+                    beginAtZero: true
+                }
+            }
+        };
+
+        // Budget Variance Trend Chart
+        const varianceTrendCtx = document.getElementById('variance-trend').getContext('2d');
+        new Chart(varianceTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+                datasets: [{
+                    label: 'Variance (M USD)',
+                    data: [-1.2, -1.5, -2.1, -2.8, -3.0, -3.2],
+                    borderColor: '#2D8B4E',
+                    backgroundColor: 'rgba(45, 139, 78, 0.1)',
+                    borderWidth: 3,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#2D8B4E',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: chartConfig
+        });
+
+        // Schedule Performance Index Trend
+        const spiTrendCtx = document.getElementById('spi-trend').getContext('2d');
+        new Chart(spiTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+                datasets: [{
+                    label: 'SPI',
+                    data: [0.92, 0.95, 0.98, 1.01, 1.02, 1.01],
+                    borderColor: '#C6A96A',
+                    backgroundColor: 'rgba(198, 169, 106, 0.1)',
+                    borderWidth: 3,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#C6A96A',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: chartConfig
+        });
+
+        // Risk Count Trend
+        const riskTrendCtx = document.getElementById('risk-trend').getContext('2d');
+        new Chart(riskTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
+                datasets: [{
+                    label: 'Open Risks',
+                    data: [2, 4, 5, 4, 3, 3],
+                    borderColor: '#B23026',
+                    backgroundColor: 'rgba(178, 48, 38, 0.1)',
+                    borderWidth: 3,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#B23026',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: chartConfig
+        });
+
+        // Auto-refresh page every 30 seconds
+        setInterval(() => {
+            location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>

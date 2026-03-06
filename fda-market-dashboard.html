@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D. Projects — Market Analysis Dashboard</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496; --white:#FFFFFF; --gold-light:#D4BC85}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff;min-height:100vh}
+.dashboard{max-width:1200px;margin:0 auto;padding:20px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(198,169,106,0.2);margin-bottom:25px}
+.top-bar img{height:40px}
+.top-bar h1{font-size:1.2rem;color:var(--gold);letter-spacing:1px}
+.top-bar .date{color:var(--gray);font-size:0.8rem}
+.filters{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap}
+.filter-btn{padding:8px 18px;border:1px solid rgba(198,169,106,0.3);background:transparent;color:var(--gray);border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;transition:all 0.3s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);font-weight:600}
+.grid{display:grid;gap:20px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--dark2);border-radius:10px;border:1px solid rgba(198,169,106,0.12);padding:20px;overflow:hidden}
+.card h3{color:var(--gold);font-size:0.9rem;font-weight:600;margin-bottom:15px;text-transform:uppercase;letter-spacing:0.5px}
+.metric{text-align:center;padding:10px}
+.metric .val{font-size:2rem;font-weight:800;color:var(--gold)}
+.metric .lbl{color:var(--gray);font-size:0.75rem;margin-top:3px}
+.metric .chg{font-size:0.8rem;margin-top:4px}
+.chg.up{color:var(--green)}
+.chg.down{color:var(--red)}
+.comp-table{width:100%;border-collapse:collapse;font-size:0.8rem}
+.comp-table th{background:var(--teal);color:#fff;padding:10px 8px;text-align:left;font-weight:600}
+.comp-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--cream)}
+.comp-table tr:nth-child(even) td{background:rgba(10,54,64,0.15)}
+.comp-table .highlight td{background:rgba(198,169,106,0.12);font-weight:600;color:var(--gold)}
+.score-bar{display:flex;align-items:center;gap:8px}
+.score-track{flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
+.score-fill{height:100%;border-radius:4px}
+.chart-wrap{position:relative;height:280px}
+
+@media(max-width:900px){
+  .grid-2,.grid-4{grid-template-columns:1fr}
+  .chart-wrap{height:220px}
+}
+   @media(max-width:414px){
+     .hero{padding:4rem 1.2rem 2.5rem}
+     .hero h1{font-size:1.8rem}
+     .hero p{font-size:0.82rem}
+     section{padding:2.5rem 1.2rem}
+   }
+
+/* NAV */
+
+/* HAMBURGER */
+
+/* FOOTER */
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div>
+<div class="dashboard">
+  <div class="top-bar">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects">
+    <h1>MARKET ANALYSIS DASHBOARD</h1>
+    <div class="date">Sheikh Zayedast, Egypt | Q1 2026</div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setRegion(this,'all')">All Regions</button>
+    <button class="filter-btn" onclick="setRegion(this,'nc')">Sheikh Zayedast</button>
+    <button class="filter-btn" onclick="setRegion(this,'6oct')">6th October</button>
+    <button class="filter-btn" onclick="setRegion(this,'nac')">New Capital</button>
+    <button class="filter-btn" onclick="setRegion(this,'shore')">North Shore</button>
+  </div>
+
+  <div class="grid grid-4" style="margin-bottom:20px">
+    <div class="card metric"><div class="val" id="kpi-price">45,000</div><div class="lbl">Avg. Price (USD/sqm)</div><div class="chg up">+22% YoY</div></div>
+    <div class="card metric"><div class="val" id="kpi-supply">12,400</div><div class="lbl">Units in Pipeline</div><div class="chg up">+8% QoQ</div></div>
+    <div class="card metric"><div class="val" id="kpi-absorb">87%</div><div class="lbl">Absorption Rate</div><div class="chg up">+3% YoY</div></div>
+    <div class="card metric"><div class="val" id="kpi-yield">9.2%</div><div class="lbl">Avg. Rental Yield</div><div class="chg down">-0.4% YoY</div></div>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:20px">
+    <div class="card"><h3>Price Trend — 5 Year (USD/sqm)</h3><div class="chart-wrap"><canvas id="priceChart"></canvas></div></div>
+    <div class="card"><h3>Supply vs. Demand (Units)</h3><div class="chart-wrap"><canvas id="supplyChart"></canvas></div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>Comparable Developments Analysis</h3>
+    <table class="comp-table">
+      <thead><tr><th>Development</th><th>Developer</th><th>Location</th><th>Price/sqm</th><th>Units</th><th>Sold %</th><th>Score</th></tr></thead>
+      <tbody>
+        <tr><td>Hyde Park</td><td>Hyde Park Dev.</td><td>5th Settlement</td><td>55,000</td><td>800</td><td>92%</td><td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:92%;background:var(--green)"></div></div>92</div></td></tr>
+        <tr><td>Marassi</td><td>Company E Misr</td><td>Sheikh Zayedast</td><td>50,000</td><td>650</td><td>88%</td><td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:88%;background:var(--green)"></div></div>88</div></td></tr>
+        <tr class="highlight"><td>Al Maadi Heights Ph.2</td><td>D. Projects</td><td>Sheikh Zayedast</td><td>45,000</td><td>340</td><td>—</td><td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:85%;background:var(--gold)"></div></div>85</div></td></tr>
+        <tr><td>Mountain View iCity</td><td>Mountain View</td><td>Sheikh Zayedast</td><td>42,000</td><td>1,200</td><td>78%</td><td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:78%;background:#C27A32"></div></div>78</div></td></tr>
+        <tr><td>Palm Hills Katameya</td><td>Palm Hills</td><td>Sheikh Zayedast</td><td>38,000</td><td>950</td><td>85%</td><td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:85%;background:var(--green)"></div></div>85</div></td></tr>
+        <tr><td>SODIC East</td><td>SODIC</td><td>New Heliopolis</td><td>35,000</td><td>500</td><td>72%</td><td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:72%;background:#C27A32"></div></div>72</div></td></tr>
+        <tr><td>Zed East</td><td>Ora Developers</td><td>Sheikh Zayedast</td><td>48,000</td><td>400</td><td>65%</td><td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:65%;background:var(--red)"></div></div>65</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card"><h3>Revenue Mix — Project Types</h3><div class="chart-wrap"><canvas id="mixChart"></canvas></div></div>
+    <div class="card"><h3>Yield Comparison by Area</h3><div class="chart-wrap"><canvas id="yieldChart"></canvas></div></div>
+  </div>
+
+  <div class="footer">
+    <strong style="color:var(--gold)">D. PROJECTS</strong> | Market data compiled from JLL, Colliers, and proprietary research | Q1 2026
+  </div>
+</div>
+
+<script>
+const gold='#C6A96A',teal='#0A3640',green='#2D8B4E',red='#B23026',blue='#2A6496',gray='#8A9196';
+Chart.defaults.color=gray;
+Chart.defaults.borderColor='rgba(255,255,255,0.05)';
+
+new Chart(document.getElementById('priceChart'),{
+  type:'line',
+  data:{
+    labels:['2022','2023','Q1 24','Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25','Q1 26'],
+    datasets:[
+      {label:'Sheikh Zayedast',data:[22000,26000,28000,30000,32000,34000,36000,38000,40000,43000,45000],borderColor:gold,backgroundColor:'rgba(198,169,106,0.1)',fill:true,tension:0.3},
+      {label:'6th October',data:[18000,20000,21000,22000,23000,24000,25500,27000,28000,29000,30000],borderColor:blue,borderDash:[5,5],tension:0.3},
+      {label:'New Capital',data:[15000,18000,20000,22000,25000,28000,30000,33000,35000,37000,40000],borderColor:green,borderDash:[3,3],tension:0.3}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},scales:{y:{ticks:{callback:v=>v.toLocaleString()}}}}
+});
+
+new Chart(document.getElementById('supplyChart'),{
+  type:'bar',
+  data:{
+    labels:['2022','2023','2024','2025','2026E'],
+    datasets:[
+      {label:'New Supply',data:[8500,9200,10800,11500,12400],backgroundColor:'rgba(42,100,150,0.7)'},
+      {label:'Units Sold',data:[7200,8100,9400,10000,10800],backgroundColor:'rgba(198,169,106,0.7)'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12}}},scales:{y:{ticks:{callback:v=>v.toLocaleString()}}}}
+});
+
+new Chart(document.getElementById('mixChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Residential','Commercial/Retail','Mixed-Use','Hospitality','Industrial'],
+    datasets:[{data:[45,20,18,10,7],backgroundColor:[gold,blue,green,'#6B4C8A','#C27A32'],borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:12,padding:12}}}}
+});
+
+new Chart(document.getElementById('yieldChart'),{
+  type:'bar',
+  data:{
+    labels:['Sheikh Zayedast','6th October','New Capital','Heliopolis','Maadi','Zamalek'],
+    datasets:[{label:'Rental Yield %',data:[9.2,8.5,10.1,7.8,7.2,6.5],backgroundColor:[gold,blue,green,'#6B4C8A','#C27A32',gray]}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>v+'%'}}}}
+});
+
+function setRegion(btn, region) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const data = {
+    all: {price:'45,000',supply:'12,400',absorb:'87%',yld:'9.2%'},
+    nc:  {price:'45,000',supply:'4,200',absorb:'88%',yld:'9.2%'},
+    '6oct': {price:'30,000',supply:'3,800',absorb:'82%',yld:'8.5%'},
+    nac: {price:'40,000',supply:'3,100',absorb:'91%',yld:'10.1%'},
+    shore: {price:'52,000',supply:'1,300',absorb:'79%',yld:'7.8%'}
+  };
+  const d = data[region];
+  document.getElementById('kpi-price').textContent = d.price;
+  document.getElementById('kpi-supply').textContent = d.supply;
+  document.getElementById('kpi-absorb').textContent = d.absorb;
+  document.getElementById('kpi-yield').textContent = d.yld;
+}
+</script>
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

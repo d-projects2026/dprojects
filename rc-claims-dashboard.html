@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>D. Projects — Claims Timeline Dashboard</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496;--orange:#C27A32; --white:#FFFFFF; --gold-light:#D4BC85}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff}
+.dash{max-width:1200px;margin:0 auto;padding:20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(198,169,106,0.2);margin-bottom:25px}
+.top img{height:40px}.top h1{font-size:1.2rem;color:var(--gold)}.top .info{color:var(--gray);font-size:0.8rem}
+.grid{display:grid;gap:20px}.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--dark2);border-radius:10px;border:1px solid rgba(198,169,106,0.12);padding:20px;overflow:hidden}
+.card h3{color:var(--gold);font-size:0.85rem;font-weight:600;margin-bottom:15px;text-transform:uppercase;letter-spacing:0.5px}
+.metric{text-align:center;padding:10px}.metric .val{font-size:2rem;font-weight:800}.metric .lbl{color:var(--gray);font-size:0.7rem;margin-top:3px}
+.chart-wrap{position:relative;height:280px}
+.timeline{padding:10px 0}
+.tl-item{display:flex;gap:15px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.tl-date{width:80px;color:var(--gray);font-size:0.75rem;text-align:right;padding-top:2px}
+.tl-dot{width:12px;height:12px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.tl-content{flex:1}
+.tl-content .title{font-size:0.85rem;font-weight:600;color:var(--cream)}
+.tl-content .desc{font-size:0.75rem;color:var(--gray);margin-top:2px}
+.tl-content .amount{font-size:0.8rem;font-weight:700;color:var(--gold);margin-top:4px}
+.status-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.65rem;font-weight:600;margin-left:8px}
+.sb-approved{background:rgba(45,139,78,0.2);color:var(--green)}
+.sb-review{background:rgba(42,100,150,0.2);color:var(--blue)}
+.sb-submitted{background:rgba(198,169,106,0.2);color:var(--gold)}
+.sb-rejected{background:rgba(178,48,38,0.2);color:var(--red)}
+.delay-bar{display:flex;align-items:center;margin:6px 0;font-size:0.75rem}
+.delay-bar .dl{width:120px;color:var(--cream);text-align:right;padding-right:10px}
+.delay-bar .db{flex:1;height:18px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden}
+.delay-bar .db div{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px;font-size:0.65rem;font-weight:600;color:#fff}
+
+@media(max-width:900px){.g2,.g4{grid-template-columns:1fr}.chart-wrap{height:220px}}
+   @media(max-width:414px){
+     .hero{padding:4rem 1.2rem 2.5rem}
+     .hero h1{font-size:1.8rem}
+     .hero p{font-size:0.82rem}
+     section{padding:2.5rem 1.2rem}
+   }
+
+/* NAV */
+
+/* HAMBURGER */
+
+/* FOOTER */
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head><body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div>
+<div class="dash">
+  <div class="top">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects">
+    <h1>CLAIMS TIMELINE DASHBOARD</h1>
+    <div class="info">Al Maadi Heights — Phase 2 | As of Feb 2026</div>
+  </div>
+
+  <div class="grid g4" style="margin-bottom:20px">
+    <div class="card metric"><div class="val" style="color:var(--gold)">8</div><div class="lbl">Total Claims</div></div>
+    <div class="card metric"><div class="val" style="color:var(--gold)">USD 24.9M</div><div class="lbl">Total Value</div></div>
+    <div class="card metric"><div class="val" style="color:var(--green)">2</div><div class="lbl">Approved</div></div>
+    <div class="card metric"><div class="val" style="color:var(--red)">46 days</div><div class="lbl">Total Delay</div></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>Claims by Type (Value USD M)</h3>
+      <div class="chart-wrap"><canvas id="typeChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Claims Status Distribution</h3>
+      <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>Claims Timeline</h3>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-date">05 Jan</div><div class="tl-dot" style="background:var(--green)"></div><div class="tl-content"><div class="title">CLM-001: Extension of Time <span class="status-badge sb-approved">Approved</span></div><div class="desc">Rock encountered during excavation — 15 days EOT</div></div></div>
+        <div class="tl-item"><div class="tl-date">12 Jan</div><div class="tl-dot" style="background:var(--green)"></div><div class="tl-content"><div class="title">CLM-002: Variation Order <span class="status-badge sb-approved">Approved</span></div><div class="desc">Lobby design upgrade</div><div class="amount">USD 4.5M claimed → USD 4.2M approved</div></div></div>
+        <div class="tl-item"><div class="tl-date">20 Jan</div><div class="tl-dot" style="background:var(--blue)"></div><div class="tl-content"><div class="title">CLM-003: Delay Damages <span class="status-badge sb-review">Under Review</span></div><div class="desc">Late shop drawing approval</div><div class="amount">USD 2.8M</div></div></div>
+        <div class="tl-item"><div class="tl-date">01 Feb</div><div class="tl-dot" style="background:var(--gold)"></div><div class="tl-content"><div class="title">CLM-004: Cost Overrun <span class="status-badge sb-submitted">Submitted</span></div><div class="desc">Steel price increase +18%</div><div class="amount">USD 6.2M</div></div></div>
+        <div class="tl-item"><div class="tl-date">08 Feb</div><div class="tl-dot" style="background:var(--blue)"></div><div class="tl-content"><div class="title">CLM-005: Force Majeure <span class="status-badge sb-review">Under Review</span></div><div class="desc">Government safety shutdown</div><div class="amount">USD 0.85M</div></div></div>
+        <div class="tl-item"><div class="tl-date">15 Feb</div><div class="tl-dot" style="background:var(--gold)"></div><div class="tl-content"><div class="title">CLM-006: Variation Order <span class="status-badge sb-submitted">Submitted</span></div><div class="desc">2 extra elevators Block B</div><div class="amount">USD 5.6M</div></div></div>
+        <div class="tl-item"><div class="tl-date">18 Feb</div><div class="tl-dot" style="background:var(--gold)"></div><div class="tl-content"><div class="title">CLM-007: Disruption <span class="status-badge sb-submitted">Submitted</span></div><div class="desc">Concurrent works productivity loss</div><div class="amount">USD 1.2M</div></div></div>
+        <div class="tl-item"><div class="tl-date">22 Feb</div><div class="tl-dot" style="background:var(--gold)"></div><div class="tl-content"><div class="title">CLM-008: Acceleration <span class="status-badge sb-submitted">Submitted</span></div><div class="desc">Recovery costs to maintain completion</div><div class="amount">USD 3.8M</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Delay Analysis — Activity Delays (days)</h3>
+      <div class="delay-bar"><div class="dl">Mobilisation</div><div class="db"><div style="width:7%;background:var(--orange)">3</div></div></div>
+      <div class="delay-bar"><div class="dl">Excavation</div><div class="db"><div style="width:11%;background:var(--orange)">5</div></div></div>
+      <div class="delay-bar"><div class="dl">Piling</div><div class="db"><div style="width:7%;background:var(--orange)">3</div></div></div>
+      <div class="delay-bar"><div class="dl">Foundation</div><div class="db"><div style="width:15%;background:var(--red)">7</div></div></div>
+      <div class="delay-bar"><div class="dl">Structure 1-4</div><div class="db"><div style="width:11%;background:var(--orange)">5</div></div></div>
+      <div class="delay-bar"><div class="dl">Structure 5-8</div><div class="db"><div style="width:22%;background:var(--red)">10</div></div></div>
+      <div class="delay-bar"><div class="dl">Structure 9-12</div><div class="db"><div style="width:28%;background:var(--red)">13</div></div></div>
+      <div style="margin-top:15px;padding:12px;background:rgba(178,48,38,0.1);border-radius:6px;border-left:3px solid var(--red);text-align:center">
+        <span style="font-size:1.2rem;font-weight:800;color:var(--red)">46 days</span><br><span style="font-size:0.75rem;color:var(--gray)">Total Cumulative Delay</span>
+      </div>
+      <div class="chart-wrap" style="height:200px;margin-top:15px"><canvas id="monthlyChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="footer"><strong style="color:var(--gold)">D. PROJECTS</strong> | Claims & Delay Analysis | Confidential</div>
+</div>
+
+<script>
+const gold='#C6A96A',green='#2D8B4E',red='#B23026',blue='#2A6496',orange='#C27A32',gray='#8A9196',purple='#6B4C8A';
+Chart.defaults.color=gray;Chart.defaults.borderColor='rgba(255,255,255,0.05)';
+
+new Chart(document.getElementById('typeChart'),{type:'bar',data:{labels:['EOT','Variation','Delay','Cost Overrun','Force Maj.','Disruption','Acceleration'],datasets:[{label:'Value (USD M)',data:[0,10.1,2.8,6.2,0.85,1.2,3.8],backgroundColor:[green,gold,blue,red,orange,purple,gray]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>v+'M'}}}}});
+
+new Chart(document.getElementById('statusChart'),{type:'doughnut',data:{labels:['Approved','Under Review','Submitted'],datasets:[{data:[2,2,4],backgroundColor:[green,blue,gold],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:10,padding:12}}}}});
+
+new Chart(document.getElementById('monthlyChart'),{type:'line',data:{labels:['Jan','Feb','Mar','Apr','May'],datasets:[{label:'Cumulative Claims (USD M)',data:[4.5,24.9,28,30,32],borderColor:red,backgroundColor:'rgba(178,48,38,0.1)',fill:true,tension:0.3},{label:'Approved (USD M)',data:[4.2,4.2,8,12,16],borderColor:green,borderDash:[5,5],tension:0.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10}}},scales:{y:{ticks:{callback:v=>v+'M'}}}}});
+</script><footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body></html>

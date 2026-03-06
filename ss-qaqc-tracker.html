@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>D. Projects — QA/QC Tracker</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496;--orange:#C27A32; --white:#FFFFFF; --gold-light:#D4BC85}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff}
+.tracker{max-width:1100px;margin:0 auto;padding:20px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(198,169,106,0.2);margin-bottom:25px}
+.top img{height:40px}.top h1{font-size:1.2rem;color:var(--gold)}
+.filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border:1px solid rgba(198,169,106,0.3);background:transparent;color:var(--gray);border-radius:6px;cursor:pointer;font-family:'Inter';font-size:0.75rem;transition:all 0.3s}
+.filter-btn:hover,.filter-btn.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.qa-table{width:100%;border-collapse:collapse;font-size:0.78rem}
+.qa-table th{background:var(--teal);color:#fff;padding:10px 8px;text-align:left;font-weight:600;position:sticky;top:0;z-index:10}
+.qa-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--cream)}
+.qa-table tr:nth-child(even) td{background:rgba(10,54,64,0.1)}
+.qa-table tr:hover td{background:rgba(198,169,106,0.08)}
+.status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.7rem;font-weight:600}
+.s-approved{background:rgba(45,139,78,0.2);color:var(--green)}
+.s-pending{background:rgba(198,169,106,0.2);color:var(--gold)}
+.s-rejected{background:rgba(178,48,38,0.2);color:var(--red)}
+.s-submitted{background:rgba(42,100,150,0.2);color:var(--blue)}
+.progress-ring{display:inline-flex;align-items:center;gap:6px}
+.ring{width:28px;height:28px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
+.sum-card{background:var(--dark2);border-radius:8px;padding:15px;text-align:center;border:1px solid rgba(198,169,106,0.12)}
+.sum-card .sv{font-size:1.5rem;font-weight:800}.sum-card .sl{font-size:0.7rem;color:var(--gray);margin-top:3px}
+
+@media(max-width:900px){.summary{grid-template-columns:1fr 1fr}.qa-table{font-size:0.7rem}}
+   @media(max-width:414px){
+     .hero{padding:4rem 1.2rem 2.5rem}
+     .hero h1{font-size:1.8rem}
+     .hero p{font-size:0.82rem}
+     section{padding:2.5rem 1.2rem}
+   }
+
+/* NAV */
+
+/* HAMBURGER */
+
+/* FOOTER */
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head><body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div>
+<div class="tracker">
+  <div class="top">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects">
+    <h1>QA/QC DOCUMENT TRACKER</h1>
+  </div>
+  <div class="summary">
+    <div class="sum-card"><div class="sv" style="color:var(--gold)">48</div><div class="sl">Total Submittals</div></div>
+    <div class="sum-card"><div class="sv" style="color:var(--green)">28</div><div class="sl">Approved</div></div>
+    <div class="sum-card"><div class="sv" style="color:var(--blue)">12</div><div class="sl">Under Review</div></div>
+    <div class="sum-card"><div class="sv" style="color:var(--red)">8</div><div class="sl">Rejected / Resubmit</div></div>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterTable(this,'all')">All</button>
+    <button class="filter-btn" onclick="filterTable(this,'Material')">Material</button>
+    <button class="filter-btn" onclick="filterTable(this,'Shop Drawing')">Shop Drawings</button>
+    <button class="filter-btn" onclick="filterTable(this,'Method')">Method Statements</button>
+    <button class="filter-btn" onclick="filterTable(this,'Test')">Test Reports</button>
+    <button class="filter-btn" onclick="filterTable(this,'ITP')">ITPs</button>
+  </div>
+  <table class="qa-table" id="qaTable">
+    <thead><tr><th>Ref</th><th>Type</th><th>Description</th><th>Trade</th><th>Submitted</th><th>Status</th><th>Rev</th><th>Reviewer</th></tr></thead>
+    <tbody>
+      <tr data-type="Material"><td>MAT-001</td><td>Material</td><td>Concrete mix design C40/50</td><td>Concrete</td><td>05-Jan</td><td><span class="status s-approved">Approved</span></td><td>R1</td><td>QA Manager</td></tr>
+      <tr data-type="Material"><td>MAT-002</td><td>Material</td><td>Steel reinforcement Y16 (Grade 60)</td><td>Rebar</td><td>06-Jan</td><td><span class="status s-approved">Approved</span></td><td>R0</td><td>Structural Eng.</td></tr>
+      <tr data-type="Shop Drawing"><td>SD-001</td><td>Shop Drawing</td><td>Foundation layout — Block A</td><td>Structural</td><td>08-Jan</td><td><span class="status s-approved">Approved</span></td><td>R2</td><td>Design Lead</td></tr>
+      <tr data-type="Shop Drawing"><td>SD-002</td><td>Shop Drawing</td><td>Electrical riser diagram</td><td>MEP</td><td>10-Jan</td><td><span class="status s-rejected">Rejected</span></td><td>R1</td><td>MEP Lead</td></tr>
+      <tr data-type="Method"><td>MS-001</td><td>Method</td><td>Concrete pouring methodology</td><td>Concrete</td><td>12-Jan</td><td><span class="status s-approved">Approved</span></td><td>R0</td><td>QA Manager</td></tr>
+      <tr data-type="Method"><td>MS-002</td><td>Method</td><td>Waterproofing application procedure</td><td>Waterproof</td><td>15-Jan</td><td><span class="status s-submitted">Submitted</span></td><td>R0</td><td>QA Manager</td></tr>
+      <tr data-type="Test"><td>TR-001</td><td>Test</td><td>Concrete cube test — 7 day (Block A)</td><td>Concrete</td><td>18-Jan</td><td><span class="status s-approved">Approved</span></td><td>R0</td><td>Lab Manager</td></tr>
+      <tr data-type="Test"><td>TR-002</td><td>Test</td><td>Pipe pressure test — Zone 1</td><td>Plumbing</td><td>20-Jan</td><td><span class="status s-pending">Pending</span></td><td>R0</td><td>MEP Lead</td></tr>
+      <tr data-type="ITP"><td>ITP-001</td><td>ITP</td><td>Structural works inspection plan</td><td>Structural</td><td>03-Jan</td><td><span class="status s-approved">Approved</span></td><td>R1</td><td>QC Engineer</td></tr>
+      <tr data-type="ITP"><td>ITP-002</td><td>ITP</td><td>MEP rough-in inspection plan</td><td>MEP</td><td>05-Jan</td><td><span class="status s-submitted">Submitted</span></td><td>R0</td><td>QC Engineer</td></tr>
+      <tr data-type="Material"><td>MAT-003</td><td>Material</td><td>Curtain wall aluminium extrusion</td><td>Facade</td><td>22-Jan</td><td><span class="status s-pending">Pending</span></td><td>R0</td><td>Facade Eng.</td></tr>
+      <tr data-type="Shop Drawing"><td>SD-003</td><td>Shop Drawing</td><td>HVAC duct routing — Floors 1-4</td><td>MEP</td><td>25-Jan</td><td><span class="status s-rejected">Rejected</span></td><td>R1</td><td>MEP Lead</td></tr>
+      <tr data-type="Material"><td>MAT-004</td><td>Material</td><td>Porcelain floor tiles (lobby)</td><td>Finishing</td><td>28-Jan</td><td><span class="status s-approved">Approved</span></td><td>R0</td><td>Interior Des.</td></tr>
+      <tr data-type="Test"><td>TR-003</td><td>Test</td><td>Compaction test — backfill area C</td><td>Civil</td><td>01-Feb</td><td><span class="status s-approved">Approved</span></td><td>R0</td><td>Geotech Eng.</td></tr>
+      <tr data-type="Method"><td>MS-003</td><td>Method</td><td>Tower crane erection procedure</td><td>General</td><td>03-Feb</td><td><span class="status s-submitted">Submitted</span></td><td>R0</td><td>Safety Mgr.</td></tr>
+    </tbody>
+  </table>
+  <div class="footer"><strong style="color:var(--gold)">D. PROJECTS</strong> | QA/QC Document Tracker | Live Status</div>
+</div>
+<script>
+function filterTable(btn, type) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#qaTable tbody tr').forEach(row => {
+    row.style.display = (type === 'all' || row.dataset.type === type) ? '' : 'none';
+  });
+}
+</script><footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body></html>

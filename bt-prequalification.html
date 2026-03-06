@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D. Projects — Contractor Prequalification Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496;--white:#FFFFFF;--gold-light:#D4BC85}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:30px 20px}
+.header{text-align:center;padding:30px 0;border-bottom:1px solid rgba(198,169,106,0.2);margin-bottom:30px}
+.header img{height:50px;margin-bottom:12px}
+.header h1{font-size:1.5rem;color:var(--gold);font-weight:700;letter-spacing:1px}
+.header p{color:var(--gray);font-size:0.85rem;margin-top:5px}
+.progress{display:flex;justify-content:center;gap:4px;margin-bottom:30px}
+.step{width:120px;text-align:center;position:relative}
+.step .dot{width:32px;height:32px;border-radius:50%;border:2px solid rgba(198,169,106,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:700;font-size:0.8rem;color:var(--gray);transition:all 0.3s}
+.step.active .dot{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.step.done .dot{background:var(--green);border-color:var(--green);color:#fff}
+.step .label{font-size:0.65rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px}
+.step.active .label{color:var(--gold);font-weight:600}
+.step::after{content:'';position:absolute;top:16px;left:calc(50% + 20px);width:calc(100% - 40px);height:2px;background:rgba(198,169,106,0.2)}
+.step:last-child::after{display:none}
+.step.done::after{background:var(--green)}
+.form-section{display:none;animation:fadeIn 0.3s}
+.form-section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-size:1.1rem;color:var(--gold);font-weight:600;margin-bottom:20px;padding-bottom:8px;border-bottom:1px solid rgba(198,169,106,0.2)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.form-group{margin-bottom:0}
+.form-group.full{grid-column:1/-1}
+.form-group label{display:block;font-size:0.8rem;color:var(--cream);margin-bottom:5px;font-weight:500}
+.form-group label .req{color:var(--red)}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;background:var(--dark2);border:1px solid rgba(198,169,106,0.2);border-radius:6px;color:var(--cream);font-family:'Inter',sans-serif;font-size:0.85rem;transition:border-color 0.3s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--gold)}
+.form-group textarea{min-height:80px;resize:vertical}
+.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C6A96A' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:18px}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.check-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--dark2);border:1px solid rgba(198,169,106,0.15);border-radius:6px;cursor:pointer;transition:all 0.3s}
+.check-item:hover{border-color:var(--gold)}
+.check-item input{accent-color:var(--gold);width:16px;height:16px}
+.check-item span{font-size:0.8rem;color:var(--cream)}
+.btn-row{display:flex;justify-content:space-between;margin-top:25px;padding-top:20px;border-top:1px solid rgba(198,169,106,0.1)}
+.btn{padding:12px 28px;border-radius:6px;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.3s;border:none}
+.btn-prev{background:transparent;border:1px solid var(--gray);color:var(--gray)}
+.btn-prev:hover{border-color:var(--gold);color:var(--gold)}
+.btn-next{background:var(--blue);color:#fff}
+.btn-next:hover{background:#3578b2}
+.btn-submit{background:var(--green);color:#fff}
+.btn-submit:hover{background:#35a05a}
+.file-upload{border:2px dashed rgba(198,169,106,0.3);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color 0.3s}
+.file-upload:hover{border-color:var(--gold)}
+.file-upload .icon{font-size:2rem;margin-bottom:8px}
+.file-upload p{color:var(--gray);font-size:0.8rem}
+.success-msg{display:none;text-align:center;padding:50px 30px}
+.success-msg .check{width:60px;height:60px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.5rem}
+.success-msg h2{color:var(--gold);font-size:1.4rem;margin-bottom:10px}
+.success-msg p{color:var(--gray);font-size:0.9rem;line-height:1.6}
+@media(max-width:700px){.form-grid,.check-grid{grid-template-columns:1fr}.progress{flex-wrap:wrap;gap:15px}.step::after{display:none}}
+@media(max-width:414px){.hero{padding:4rem 1.2rem 2.5rem}.hero h1{font-size:1.8rem}.hero p{font-size:0.82rem}section{padding:2.5rem 1.2rem}}
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div>
+<div class="container">
+  <div class="header">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects">
+    <h1>CONTRACTOR PREQUALIFICATION</h1>
+    <p>Complete this form to register as an approved contractor with D. Projects</p>
+  </div>
+
+  <div class="progress">
+    <div class="step active" data-step="0"><div class="dot">1</div><div class="label">Company</div></div>
+    <div class="step" data-step="1"><div class="dot">2</div><div class="label">Experience</div></div>
+    <div class="step" data-step="2"><div class="dot">3</div><div class="label">Capacity</div></div>
+    <div class="step" data-step="3"><div class="dot">4</div><div class="label">Compliance</div></div>
+    <div class="step" data-step="4"><div class="dot">5</div><div class="label">Documents</div></div>
+  </div>
+
+  <form id="preqForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+    <!-- STEP 1: COMPANY INFO -->
+    <div class="form-section active" data-section="0">
+      <div class="section-title">Company Information</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Company Name <span class="req">*</span></label><input type="text" name="company_name" required placeholder="Legal entity name"></div>
+        <div class="form-group"><label>Trading Name</label><input type="text" name="trading_name" placeholder="If different from legal name"></div>
+        <div class="form-group"><label>Company Registration No. <span class="req">*</span></label><input type="text" name="reg_number" required></div>
+        <div class="form-group"><label>Year Established <span class="req">*</span></label><input type="number" name="year_est" required min="1900" max="2026" placeholder="e.g. 2005"></div>
+        <div class="form-group"><label>Country of Registration</label><input type="text" name="country" value="Egypt"></div>
+        <div class="form-group"><label>City / Governorate</label><input type="text" name="city" placeholder="e.g. Cairo"></div>
+        <div class="form-group full"><label>Registered Address</label><input type="text" name="address" placeholder="Full registered address"></div>
+        <div class="form-group"><label>Contact Person <span class="req">*</span></label><input type="text" name="contact_name" required></div>
+        <div class="form-group"><label>Position / Title</label><input type="text" name="contact_title" placeholder="e.g. Business Development Manager"></div>
+        <div class="form-group"><label>Email <span class="req">*</span></label><input type="email" name="email" required></div>
+        <div class="form-group"><label>Phone <span class="req">*</span></label><input type="tel" name="phone" required placeholder="+20 xxx xxx xxxx"></div>
+      </div>
+      <div class="btn-row"><div></div><button type="button" class="btn btn-next" onclick="nextStep()">Next: Experience</button></div>
+    </div>
+
+    <!-- STEP 2: EXPERIENCE -->
+    <div class="form-section" data-section="1">
+      <div class="section-title">Experience & Track Record</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Total Projects Completed</label><input type="number" name="total_projects" placeholder="e.g. 25"></div>
+        <div class="form-group"><label>Largest Single Contract Value (USD)</label><input type="text" name="largest_contract" placeholder="e.g. 500,000,000"></div>
+        <div class="form-group full"><label>Primary Specialisation <span class="req">*</span></label>
+          <select name="specialisation" required>
+            <option value="">Select primary trade...</option>
+            <option>General Contracting</option>
+            <option>Civil & Structural</option>
+            <option>MEP (Mechanical, Electrical, Plumbing)</option>
+            <option>Finishing & Fit-Out</option>
+            <option>Piling & Foundations</option>
+            <option>Landscaping & External Works</option>
+            <option>Waterproofing & Insulation</option>
+            <option>Curtain Wall & Facade</option>
+            <option>Fire Protection</option>
+            <option>Elevator & Escalator</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-title" style="margin-top:20px">Sector Experience (select all that apply)</div>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox" name="sector[]" value="residential"><span>Residential</span></label>
+        <label class="check-item"><input type="checkbox" name="sector[]" value="commercial"><span>Commercial / Office</span></label>
+        <label class="check-item"><input type="checkbox" name="sector[]" value="retail"><span>Retail / Mixed-Use</span></label>
+        <label class="check-item"><input type="checkbox" name="sector[]" value="hospitality"><span>Hospitality</span></label>
+        <label class="check-item"><input type="checkbox" name="sector[]" value="industrial"><span>Industrial / Logistics</span></label>
+        <label class="check-item"><input type="checkbox" name="sector[]" value="infrastructure"><span>Infrastructure</span></label>
+        <label class="check-item"><input type="checkbox" name="sector[]" value="healthcare"><span>Healthcare</span></label>
+        <label class="check-item"><input type="checkbox" name="sector[]" value="education"><span>Education</span></label>
+      </div>
+      <div class="form-grid" style="margin-top:15px">
+        <div class="form-group full"><label>Key Reference Project 1</label><textarea name="ref_project_1" placeholder="Project name, client, value, scope, completion date"></textarea></div>
+        <div class="form-group full"><label>Key Reference Project 2</label><textarea name="ref_project_2" placeholder="Project name, client, value, scope, completion date"></textarea></div>
+        <div class="form-group full"><label>Key Reference Project 3</label><textarea name="ref_project_3" placeholder="Project name, client, value, scope, completion date"></textarea></div>
+      </div>
+      <div class="btn-row"><button type="button" class="btn btn-prev" onclick="prevStep()">Back</button><button type="button" class="btn btn-next" onclick="nextStep()">Next: Capacity</button></div>
+    </div>
+
+    <!-- STEP 3: CAPACITY -->
+    <div class="form-section" data-section="2">
+      <div class="section-title">Resources & Financial Capacity</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Total Employees</label><input type="number" name="employees" placeholder="e.g. 500"></div>
+        <div class="form-group"><label>Technical Staff</label><input type="number" name="tech_staff" placeholder="Engineers, QS, etc."></div>
+        <div class="form-group"><label>Annual Turnover (USD) <span class="req">*</span></label>
+          <select name="turnover" required>
+            <option value="">Select range...</option>
+            <option>Under 50M</option>
+            <option>50M — 100M</option>
+            <option>100M — 250M</option>
+            <option>250M — 500M</option>
+            <option>500M — 1B</option>
+            <option>Over 1B</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Current Bonding Capacity (USD)</label><input type="text" name="bonding" placeholder="e.g. 200,000,000"></div>
+        <div class="form-group"><label>Bank Name (primary)</label><input type="text" name="bank" placeholder="e.g. Commercial International Bank"></div>
+        <div class="form-group"><label>Credit Facility Available</label>
+          <select name="credit_facility"><option value="">Select...</option><option>Yes</option><option>No</option><option>In Process</option></select>
+        </div>
+      </div>
+      <div class="section-title" style="margin-top:20px">Equipment Owned</div>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox" name="equipment[]" value="cranes"><span>Tower Cranes</span></label>
+        <label class="check-item"><input type="checkbox" name="equipment[]" value="excavators"><span>Excavators</span></label>
+        <label class="check-item"><input type="checkbox" name="equipment[]" value="concrete"><span>Concrete Pumps</span></label>
+        <label class="check-item"><input type="checkbox" name="equipment[]" value="formwork"><span>Formwork Systems</span></label>
+        <label class="check-item"><input type="checkbox" name="equipment[]" value="scaffolding"><span>Scaffolding</span></label>
+        <label class="check-item"><input type="checkbox" name="equipment[]" value="batching"><span>Batching Plant</span></label>
+      </div>
+      <div class="btn-row"><button type="button" class="btn btn-prev" onclick="prevStep()">Back</button><button type="button" class="btn btn-next" onclick="nextStep()">Next: Compliance</button></div>
+    </div>
+
+    <!-- STEP 4: COMPLIANCE -->
+    <div class="form-section" data-section="3">
+      <div class="section-title">Certifications & Compliance</div>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox" name="cert[]" value="iso9001"><span>ISO 9001 (Quality)</span></label>
+        <label class="check-item"><input type="checkbox" name="cert[]" value="iso14001"><span>ISO 14001 (Environment)</span></label>
+        <label class="check-item"><input type="checkbox" name="cert[]" value="iso45001"><span>ISO 45001 (OH&S)</span></label>
+        <label class="check-item"><input type="checkbox" name="cert[]" value="ohsas"><span>OHSAS 18001</span></label>
+        <label class="check-item"><input type="checkbox" name="cert[]" value="efca"><span>EFCA Registered</span></label>
+        <label class="check-item"><input type="checkbox" name="cert[]" value="nuca"><span>NUCA Approved</span></label>
+      </div>
+      <div class="form-grid" style="margin-top:20px">
+        <div class="form-group"><label>Insurance Provider</label><input type="text" name="insurance_provider" placeholder="e.g. Allianz Egypt"></div>
+        <div class="form-group"><label>Insurance Coverage (USD)</label><input type="text" name="insurance_value" placeholder="e.g. 50,000,000"></div>
+        <div class="form-group"><label>Lost Time Injury Rate (LTIR)</label><input type="text" name="ltir" placeholder="e.g. 0.5"></div>
+        <div class="form-group"><label>EMR (Experience Modification Rate)</label><input type="text" name="emr" placeholder="e.g. 0.85"></div>
+        <div class="form-group full"><label>Any current litigation or disputes?</label><textarea name="litigation" placeholder="Describe any ongoing legal matters or enter 'None'"></textarea></div>
+        <div class="form-group full"><label>Any contract terminations in last 5 years?</label><textarea name="terminations" placeholder="Describe or enter 'None'"></textarea></div>
+      </div>
+      <div class="btn-row"><button type="button" class="btn btn-prev" onclick="prevStep()">Back</button><button type="button" class="btn btn-next" onclick="nextStep()">Next: Documents</button></div>
+    </div>
+
+    <!-- STEP 5: DOCUMENTS -->
+    <div class="form-section" data-section="4">
+      <div class="section-title">Required Documents</div>
+      <p style="color:var(--gray);font-size:0.85rem;margin-bottom:20px">Please prepare the following documents. You will be asked to submit them via email after form submission.</p>
+      <div class="check-grid" style="grid-template-columns:1fr">
+        <label class="check-item"><input type="checkbox" name="docs[]" value="reg"><span>Company Registration Certificate</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="tax"><span>Tax Registration & Compliance Certificate</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="financial"><span>Audited Financial Statements (last 3 years)</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="insurance"><span>Insurance Certificates (CAR, TPL, WC)</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="iso"><span>ISO / Quality Certifications</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="hse"><span>HSE Policy & Statistics</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="org"><span>Organisation Chart & Key Personnel CVs</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="refs"><span>Client Reference Letters (min. 3)</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="bank"><span>Bank Reference Letter</span></label>
+        <label class="check-item"><input type="checkbox" name="docs[]" value="equip"><span>Equipment List with Ownership Proof</span></label>
+      </div>
+      <div class="form-grid" style="margin-top:20px">
+        <div class="form-group full"><label>Additional Comments</label><textarea name="comments" placeholder="Any additional information you would like to provide..."></textarea></div>
+      </div>
+      <div class="btn-row"><button type="button" class="btn btn-prev" onclick="prevStep()">Back</button><button type="submit" class="btn btn-submit">Submit Prequalification</button></div>
+    </div>
+  </form>
+
+  <div class="success-msg" id="successMsg">
+    <div class="check">&#10003;</div>
+    <h2>Prequalification Submitted</h2>
+    <p>Thank you for your submission. Our procurement team will review your application within 5-7 business days. You will receive a confirmation email with next steps including document upload instructions.</p>
+    <p style="margin-top:15px;color:var(--gold)">Reference: PQ-2026-<span id="refNum"></span></p>
+  </div>
+
+  <div class="footer">
+    <strong style="color:var(--gold)">D. PROJECTS</strong> | Contractor Prequalification | Confidential
+  </div>
+</div>
+
+<script>
+let current = 0;
+const steps = document.querySelectorAll('.step');
+const sections = document.querySelectorAll('.form-section');
+
+function showStep(n) {
+  sections.forEach((s,i) => s.classList.toggle('active', i === n));
+  steps.forEach((s,i) => {
+    s.classList.remove('active','done');
+    if (i < n) s.classList.add('done');
+    if (i === n) s.classList.add('active');
+  });
+  current = n;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function nextStep() { if (current < 4) showStep(current + 1); }
+function prevStep() { if (current > 0) showStep(current - 1); }
+
+document.getElementById('preqForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const action = this.getAttribute('action');
+  if (action.includes('YOUR_FORM_ID')) {
+    document.querySelectorAll('.form-section').forEach(s => s.style.display = 'none');
+    document.querySelector('.progress').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('refNum').textContent = String(Math.floor(Math.random()*9000)+1000);
+  } else {
+    fetch(action, {method:'POST',body:new FormData(this),headers:{'Accept':'application/json'}})
+    .then(r => {
+      if (r.ok) {
+        document.querySelectorAll('.form-section').forEach(s => s.style.display = 'none');
+        document.querySelector('.progress').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        document.getElementById('refNum').textContent = String(Math.floor(Math.random()*9000)+1000);
+      }
+    });
+  }
+});
+</script>
+
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D. Projects — Site Supervision & Quality Suite</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#1A2332;--dark2:#1E2A3A;--teal:#0A3640;--gold:#C6A96A;--gray:#8A9196;--cream:#F5F3EE;--green:#2D8B4E;--red:#B23026;--blue:#2A6496;--suite-color:#C27A32; --white:#FFFFFF; --gold-light:#D4BC85}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff}
+.hero .badge{display:inline-block;padding:6px 18px;border:1px solid var(--suite-color);color:var(--suite-color);border-radius:20px;font-size:0.75rem;font-weight:600;letter-spacing:1px;margin-bottom:15px}
+.hero h1{font-size:2.4rem;font-weight:800;color:var(--cream);margin-bottom:12px}
+.hero h1 span{color:var(--suite-color)}
+.hero p{color:var(--gray);font-size:1rem;max-width:700px;margin:0 auto;line-height:1.6}
+
+.products{padding:50px 30px;max-width:1100px;margin:0 auto}
+.products h2{text-align:center;color:var(--gold);font-size:1.3rem;margin-bottom:40px;letter-spacing:1px}
+.product-card{background:var(--dark2);border-radius:12px;border:1px solid rgba(194,122,50,0.2);margin-bottom:30px;overflow:hidden;transition:border-color 0.3s}
+.product-card:hover{border-color:rgba(194,122,50,0.4)}
+.product-top{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:30px;align-items:start}
+.product-info h3{color:var(--cream);font-size:1.4rem;margin-bottom:10px}
+.tag{display:inline-block;background:var(--suite-color);color:#fff;padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;margin-bottom:12px}
+.product-info > p{color:var(--gray);line-height:1.7;margin-bottom:15px;font-size:0.95rem}
+.feature-list{list-style:none;margin-left:0}
+.feature-list li{color:var(--gray);padding-left:20px;margin-bottom:8px;position:relative;font-size:0.9rem}
+.feature-list li:before{content:"•";position:absolute;left:0;color:var(--suite-color);font-weight:bold}
+
+.product-preview{background:var(--dark);border-radius:8px;padding:20px;min-height:250px;display:flex;flex-direction:column;justify-content:space-between}
+.mini-mockup{background:rgba(255,255,255,0.02);border:1px solid rgba(194,122,50,0.2);border-radius:6px;padding:12px;margin-bottom:8px}
+.mock-header{color:var(--suite-color);font-size:0.75rem;font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.mock-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(194,122,50,0.1);font-size:0.8rem;color:var(--cream)}
+.mock-row:last-child{border-bottom:none}
+.mock-label{color:var(--gray);font-size:0.75rem}
+.mock-value{color:var(--suite-color);font-weight:600}
+
+.product-bottom{padding:0 30px 30px 30px;display:flex;gap:15px;align-items:center}
+.download-link{display:inline-flex;align-items:center;gap:8px;background:var(--suite-color);color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-size:0.9rem;font-weight:600;transition:background 0.3s}
+.download-link:hover{background:var(--suite-color);opacity:0.9}
+.file-size{color:var(--gray);font-size:0.85rem}
+
+@media(max-width:768px){
+  .product-top{grid-template-columns:1fr;gap:20px}
+  .hero h1{font-size:1.8rem}
+  .product-info h3{font-size:1.2rem}
+  .product-preview{min-height:200px}}
+   @media(max-width:414px){
+     .hero{padding:4rem 1.2rem 2.5rem}
+     .hero h1{font-size:1.8rem}
+     .hero p{font-size:0.82rem}
+     section{padding:2.5rem 1.2rem}
+   }
+/* === NAV (canonical) === */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(26,35,50,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo img { height: 36px; border-radius: 4px; }
+.nav-logo span { font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--white); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a { color: var(--gray); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.nav-btn { background: var(--gold); color: var(--dark); padding: 0.4rem 1rem; border-radius: 4px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s; }
+.nav-links a.nav-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); border-radius: 1px; transition: all 0.3s; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(26,35,50,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,169,106,0.2); padding: 1rem 2rem; z-index: 99; flex-direction: column; gap: 0.8rem; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--cream); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 1px; padding: 0.5rem 0; border-bottom: 1px solid rgba(198,169,106,0.08); transition: color 0.3s; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-menu a.mob-cta { background: var(--gold); color: var(--dark); text-align: center; padding: 0.6rem; border-radius: 4px; font-weight: 600; border: none; margin-top: 0.3rem; }
+@media (max-width: 900px) { .hamburger { display: flex; } .hamburger:focus{outline:2px solid var(--gold, #C6A96A);outline-offset:2px} .nav-links { display: none; } }
+@media(min-width:901px){.mobile-menu{display:none!important}}
+/* === FOOTER (canonical) === */
+footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid rgba(198,169,106,0.12); }
+footer .brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 5px; color: var(--white); margin-bottom: 0.3rem; }
+footer .tagline { color: var(--gold); font-style: italic; font-size: 0.85rem; margin-bottom: 0.8rem; }
+footer .footer-links { margin-bottom: 1rem; }
+footer .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; margin: 0 0.8rem; transition: color 0.3s; }
+footer .footer-links a:hover { color: var(--gold); }
+footer .copy { font-size: 0.65rem; color: rgba(138,145,150,0.6); }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <img src="data:image/jpeg;base64,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" alt="D. Projects" style="height:36px;border-radius:4px">
+    <span>D. PROJECTS</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a>
+    <a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a>
+    <a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a>
+    <a href="rfq.html" class="nav-btn">REQUEST QUOTE</a>
+  </div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="products.html">Suites</a>
+  <a href="templates.html">Templates</a>
+  <a href="smb-tools.html">SMB Tools</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="tutorials.html">Tutorials</a>
+  <a href="guide.html">Guide</a>
+  <a href="rfq.html" class="mob-cta">Request Quote</a>
+</div><div class="hero">
+  <div class="badge">SUITE 4 — SITE SUPERVISION</div>
+  <h1>Site Supervision & <span>Quality</span></h1>
+  <p>Comprehensive inspection checklists, non-conformance registers, real-time site dashboards, and QA/QC tracking — everything you need to maintain quality standards and document site supervision throughout construction.</p>
+</div>
+
+<main class="products">
+  <h2>SUITE PRODUCTS</h2>
+
+  <!-- Product 1: Inspection Checklist -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">CHECKLIST</div>
+        <h3>Inspection Checklist</h3>
+        <p>Comprehensive 4-sheet inspection workbook covering all major construction phases. Includes detailed checklists for Structural (15 items), MEP (15 items), and Finishing (15 items) with pass/fail conditional formatting for quick visual assessment. Summary dashboard automatically counts pass/fail results with COUNTIF formulas and displays compliance rates.</p>
+        <ul class="feature-list">
+          <li>3 inspection phases: Structural, MEP, Finishing</li>
+          <li>15 items per phase — total 45 inspection points</li>
+          <li>Pass/fail checkboxes with color-coded formatting</li>
+          <li>Summary dashboard with auto-calculated compliance %</li>
+          <li>Inspector signature and date tracking</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">Inspection Summary</div>
+          <div class="mock-row"><div class="mock-label">Structural Pass:</div><div class="mock-value">14 / 15</div></div>
+          <div class="mock-row"><div class="mock-label">MEP Pass:</div><div class="mock-value">13 / 15</div></div>
+          <div class="mock-row"><div class="mock-label">Finishing Pass:</div><div class="mock-value">12 / 15</div></div>
+          <div class="mock-row" style="background:rgba(194,122,50,0.1);margin-top:8px"><div class="mock-label">Overall Compliance:</div><div class="mock-value">93%</div></div>
+        </div>
+        <div class="mock-mockup">
+          <div class="mock-header">Structural Phase</div>
+          <div class="mock-row"><div class="mock-label">✓ Foundation integrity</div><div class="mock-value">PASS</div></div>
+          <div class="mock-row"><div class="mock-label">✓ Rebar placement</div><div class="mock-value">PASS</div></div>
+          <div class="mock-row"><div class="mock-label">✗ Column plumb</div><div class="mock-value">FAIL</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="product-bottom">
+      <a href="rfq.html" class="download-link">→ Request Template</a>
+      <div class="file-size">285 KB</div>
+    </div>
+  </div>
+
+  <!-- Product 2: NCR Register -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">NCR REGISTER</div>
+        <h3>NCR Register</h3>
+        <p>Professional Non-Conformance Report (NCR) tracking workbook with 2 sheets. The NCR Log captures issues with severity levels (Critical, Major, Minor), status tracking (Open/In Progress/Closed), and includes 6 sample entries with 14 blank rows for new NCRs. NCR Summary sheet auto-tallies issues by severity and calculates close-out rate, enabling management dashboards and trend analysis.</p>
+        <ul class="feature-list">
+          <li>20 NCR rows (6 samples + 14 blank)</li>
+          <li>Severity dropdown: Critical / Major / Minor</li>
+          <li>Status tracking: Open / In Progress / Closed</li>
+          <li>NCR Summary with count by severity</li>
+          <li>Close-out rate and trend visibility</li>
+          <li>Owner and due date assignment</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">NCR Summary</div>
+          <div class="mock-row"><div class="mock-label">Critical:</div><div class="mock-value">2</div></div>
+          <div class="mock-row"><div class="mock-label">Major:</div><div class="mock-value">5</div></div>
+          <div class="mock-row"><div class="mock-label">Minor:</div><div class="mock-value">8</div></div>
+          <div class="mock-row"><div class="mock-label">Total Open:</div><div class="mock-value">11</div></div>
+        </div>
+        <div class="mini-mockup" style="margin-top:10px">
+          <div class="mock-header">Recent NCRs</div>
+          <div class="mock-row" style="font-size:0.75rem"><div class="mock-label">NCR-001: Concrete strength</div><div class="mock-value">OPEN</div></div>
+          <div class="mock-row" style="font-size:0.75rem"><div class="mock-label">NCR-002: Rebar spacing</div><div class="mock-value">IN PROG</div></div>
+          <div class="mock-row" style="font-size:0.75rem"><div class="mock-label">NCR-003: Finish quality</div><div class="mock-value">CLOSED</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="product-bottom">
+      <a href="rfq.html" class="download-link">→ Request Template</a>
+      <div class="file-size">198 KB</div>
+    </div>
+  </div>
+
+  <!-- Product 3: Site Inspection Dashboard -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">INTERACTIVE DASHBOARD</div>
+        <h3>Site Inspection Dashboard</h3>
+        <p>Real-time HTML dashboard for site supervision KPI tracking. Displays 5 key performance indicators including weekly stacked bar chart (inspection types), category doughnut breakdown, trade-by-trade pass rate bars, and open NCR list with severity breakdown. Includes 12-week trend analysis for predictive quality management and instant visibility into inspection performance.</p>
+        <ul class="feature-list">
+          <li>5 critical KPIs at a glance</li>
+          <li>Weekly inspection volume stacked bar chart</li>
+          <li>Category breakdown doughnut (Structural/MEP/Finish)</li>
+          <li>Trade pass rate performance bars</li>
+          <li>Open NCR list with severity color-coding</li>
+          <li>12-week trend line for quality forecasting</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">KPI Overview</div>
+          <div class="mock-row"><div class="mock-label">Inspections (Week):</div><div class="mock-value">47</div></div>
+          <div class="mock-row"><div class="mock-label">Pass Rate:</div><div class="mock-value">91%</div></div>
+          <div class="mock-row"><div class="mock-label">NCRs Open:</div><div class="mock-value">8</div></div>
+          <div class="mock-row"><div class="mock-label">Critical:</div><div class="mock-value">1</div></div>
+        </div>
+        <div class="mini-mockup" style="margin-top:10px">
+          <div class="mock-header">Trade Performance</div>
+          <div class="mock-row" style="font-size:0.8rem"><div class="mock-label">Concrete:</div><div class="mock-value">95%</div></div>
+          <div class="mock-row" style="font-size:0.8rem"><div class="mock-label">Structural Steel:</div><div class="mock-value">87%</div></div>
+          <div class="mock-row" style="font-size:0.8rem"><div class="mock-label">Electrical:</div><div class="mock-value">89%</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="product-bottom">
+      <a href="ss-inspection-dashboard.html" class="download-link">→ Open Dashboard</a>
+      <div class="file-size">Interactive HTML</div>
+    </div>
+  </div>
+
+  <!-- Product 4: QA/QC Document Tracker -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-info">
+        <div class="tag">DOCUMENT TRACKER</div>
+        <h3>QA/QC Document Tracker</h3>
+        <p>Comprehensive submittal and document tracking dashboard with 15 pre-populated entries and full filter capability by document type. Tracks Material Certs, Shop Drawings, Method Statements, Test Reports, and ITPs (Inspection Test Plans). Status badges show approval progression, and the system logs 48 total submittals across all categories with date stamps and responsible party tracking.</p>
+        <ul class="feature-list">
+          <li>15 pre-populated submittal entries</li>
+          <li>Type filters: Material / Shop Drawing / Method / Test / ITP</li>
+          <li>Status badges: Submitted / In Review / Approved / Rejected</li>
+          <li>48 total submittals tracked</li>
+          <li>Submission and approval date tracking</li>
+          <li>Responsible engineer assignment</li>
+        </ul>
+      </div>
+      <div class="product-preview">
+        <div class="mini-mockup">
+          <div class="mock-header">Submittal Summary</div>
+          <div class="mock-row"><div class="mock-label">Material Certs:</div><div class="mock-value">12</div></div>
+          <div class="mock-row"><div class="mock-label">Shop Drawings:</div><div class="mock-value">10</div></div>
+          <div class="mock-row"><div class="mock-label">Method Statements:</div><div class="mock-value">8</div></div>
+          <div class="mock-row"><div class="mock-label">Test Reports:</div><div class="mock-value">11</div></div>
+          <div class="mock-row"><div class="mock-label">ITPs:</div><div class="mock-value">7</div></div>
+        </div>
+        <div class="mini-mockup" style="margin-top:10px">
+          <div class="mock-header">Status Breakdown</div>
+          <div class="mock-row"><div class="mock-label">Approved:</div><div class="mock-value">38</div></div>
+          <div class="mock-row"><div class="mock-label">In Review:</div><div class="mock-value">7</div></div>
+          <div class="mock-row"><div class="mock-label">Rejected:</div><div class="mock-value">3</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="product-bottom">
+      <a href="ss-qaqc-tracker.html" class="download-link">→ Open Tracker</a>
+      <div class="file-size">Interactive HTML</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="brand">D. PROJECTS</div>
+  <div class="tagline">Structured Delivery. Trusted Results.</div>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="products.html">SUITES</a>
+    <a href="templates.html">TEMPLATES</a><a href="smb-tools.html">SMB TOOLS</a>
+    <a href="pricing.html">PRICING</a><a href="tutorials.html">TUTORIALS</a>
+    <a href="guide.html">GUIDE</a><a href="rfq.html">REQUEST QUOTE</a>
+  </div>
+  <div class="copy">&copy; 2026 D. Projects. All rights reserved.</div>
+  <div style="text-align:center;padding:1rem 0;border-top:1px solid rgba(198,169,106,0.1);margin-top:1rem">
+    <span style="font-size:0.6rem;font-weight:700;letter-spacing:2px;color:#C6A96A">D. INSIGHTS FAMILY</span><br>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dinsights/" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Insights</a>
+    <a rel="noopener noreferrer" href="https://d-projects2026.github.io/dlearn/index.html" style="color:#0D9488;font-size:0.72rem;font-weight:600;margin:0.3rem 0.8rem" target="_blank">D. Learn</a>
+  </div>
+</footer>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('mobMenu');
+  menu.classList.toggle('open');
+}
+</script>
+
+
+<script>
+document.querySelector('.hamburger')?.addEventListener('click',function(){this.classList.toggle('active');document.querySelector('.mobile-menu')?.classList.toggle('open')});
+</script>
+</body>
+</html>
